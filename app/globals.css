@@ -1,3 +1,9 @@
+@import url('https://fonts.cdnfonts.com/css/sf-compact-display');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+#root{
+    font-family: 'SF Compact Display', sans-serif;
+}
