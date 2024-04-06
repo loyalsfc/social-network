@@ -7,7 +7,7 @@ import { Bell, Bookmark, ChevronLeft, CircleEllipsis, Home, LogOut, Mail, Notepa
 import { cn } from '@/lib/utils'
 
 function Sidebar() {
-    const [isMenuCollapsed, setIsMenuCollapsed] = useState(true);
+    const [isMenuCollapsed, setIsMenuCollapsed] = useState(false);
 
     const collapseMenu = () => {
         setIsMenuCollapsed(prevState => !prevState)

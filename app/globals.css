@@ -7,3 +7,13 @@
 #root{
     font-family: 'SF Compact Display', sans-serif;
 }
+@layer components{
+    .reals-stories{
+        @apply py-4 h-fit text-lg block
+    }
+}
+@layer utilities {
+    .reals-stories-active{
+        @apply font-medium text-primary border-b-2 border-b-primary rounded-none
+    }
+}
