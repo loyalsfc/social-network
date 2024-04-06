@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Sidebar from "@/components/sidebar/sidebar";
 import Header from "@/components/header/header";
+import Suggestionbar from "@/components/suggestionbar/suggestionbar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,11 +22,12 @@ export default function RootLayout({
       <body className="bg-[#F2F2F2]">
         <div className="space-y-4 h-screen flex flex-col overflow-hidden">
           <Header />
-          <div className="w-full max-w-7xl mx-auto flex-1 flex">
+          <div className="w-full max-w-7xl mx-auto flex-1 overflow-hidden flex items-start">
             <Sidebar />
             <main className="flex-1">
               {children}
             </main>
+            <Suggestionbar />
           </div>
         </div>
       </body>
