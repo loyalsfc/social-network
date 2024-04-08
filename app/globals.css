@@ -16,4 +16,7 @@
     .reals-stories-active{
         @apply font-medium text-primary border-b-2 border-b-primary rounded-none
     }
+    .reaction-btn{
+        @apply flex items-center gap-2
+    }
 }
