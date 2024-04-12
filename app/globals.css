@@ -19,4 +19,7 @@
     .reaction-btn{
         @apply flex items-center gap-2
     }
+    .profile-btn{
+        @apply h-11 w-11 rounded-full grid place-content-center border border-secondary
+    }
 }

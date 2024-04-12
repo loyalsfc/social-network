@@ -24,10 +24,7 @@ export default function RootLayout({
           <Header />
           <div className="w-full max-w-7xl mx-auto flex-1 overflow-hidden flex items-start">
             <Sidebar />
-            <main className="flex-1 h-full">
-              {children}
-            </main>
-            <Suggestionbar />
+            {children}
           </div>
         </div>
       </body>
