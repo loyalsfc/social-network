@@ -22,4 +22,15 @@
     .profile-btn{
         @apply h-11 w-11 rounded-full grid place-content-center border border-secondary
     }
+    .send-btns{
+        @apply h-7 w-7 rounded-full grid place-content-center hover:bg-primary/20 cursor-pointer transition-all
+    }
+}
+
+.snippet-ellipsis{
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Number of lines to show */
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
 }
