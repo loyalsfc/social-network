@@ -4,21 +4,13 @@ import Image from 'next/image'
 import React from 'react'
 import { Input } from '../ui/input'
 import { Bell, Search } from 'lucide-react'
+import Logo from '../logo/logo'
 
 function Header() {
     return (
         <header className='bg-white py-2.5'>
             <div className='max-w-7xl mx-auto flex items-center justify-between'>
-                <div className='flex items-center gap-2'>
-                    <div className='w-[70px] h-[54px] relative'>
-                        <Image
-                            src="/logo.png"
-                            fill
-                            alt="Fledge logo"
-                        />
-                    </div>
-                    <span className='text-[#340E0E] font-bold'>Fledge</span>
-                </div>
+                <Logo />
 
                 <div className='w-full max-w-4xl rounded-full overflow-hidden relative'>
                     <Input className='w-full border border-black/15 h-11 rounded-full focus:border-primary' />
