@@ -1,3 +1,4 @@
+import { RegistrationForm } from '@/components/authentication/registeration-form/registration-form'
 import AuthWrapper from '@/components/authentication/wrapper/header'
 import Link from 'next/link'
 import React from 'react'
@@ -11,7 +12,9 @@ function Page() {
                 headerLinkText='Sign in'
                 title='Create Your Account'
                 note='Sign up into your account'
-            />
+            >
+                <RegistrationForm />
+            </AuthWrapper>
         </div>
     )
 }

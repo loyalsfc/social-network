@@ -25,6 +25,9 @@
     .send-btns{
         @apply h-7 w-7 rounded-full grid place-content-center hover:bg-primary/20 cursor-pointer transition-all
     }
+    .auth-input{
+        @apply bg-white text-sm p-4 w-full border border-[#D9D9D9] rounded-[10px] focus:outline-secondary
+    }
 }
 
 .snippet-ellipsis{

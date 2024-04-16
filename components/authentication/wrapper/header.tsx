@@ -1,6 +1,6 @@
 import Logo from '@/components/logo/logo'
 import Link from 'next/link';
-import React from 'react'
+import React, { ReactNode } from 'react'
 import SocialBtn from '../button/social-btn';
 
 interface Props {
@@ -8,7 +8,8 @@ interface Props {
     headerLink: string,
     headerLinkText: string,
     title: string,
-    note: string
+    note: string,
+    children: ReactNode
 }
 
 function AuthWrapper({
@@ -17,6 +18,7 @@ function AuthWrapper({
     headerLinkText,
     title,
     note,
+    children
 }: Props) {
     return (
         <div className='text-black'>
@@ -46,7 +48,13 @@ function AuthWrapper({
                         name='Facebook'
                     />
                 </div>
+                <div className='flex items-center gap-4 text-sm font-semibold'>
+                    <span className='flex-1 h-px bg-[#DBDBDB]'/>
+                    Or continue with
+                    <span className='flex-1 h-px bg-[#DBDBDB]'/>
+                </div>
             </div>
+            <div>{children}</div>
         </div>
     )
 }
