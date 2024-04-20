@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 
 import { Form } from "@/components/ui/form"
-import FormControlInput, { Button, PasswordInput } from "../form-control/form-control"
+import FormControlInput, { Button, PasswordInput, SwitchInput } from "../form-control/form-control"
 import Link from "next/link"
 
 const formSchema = z.object({
@@ -21,13 +21,14 @@ const formSchema = z.object({
   staySignIn: z.boolean().default(false)
 })
 
-export function RegistrationForm() {
+export function LoginForm() {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
           name: "",
           email: "",
-          password: ""
+          password: "",
+          staySignIn: false
         },
       })
      
@@ -42,24 +43,17 @@ export function RegistrationForm() {
     <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="max-w-[400px] mx-auto space-y-2 pt-6">
             <FormControlInput
-                name="name"
-                placeholder="Name"
-                control={form.control}
-                label="Name"
-            />
-            <FormControlInput
                 name="email"
                 placeholder="Email"
                 control={form.control}
                 label="Email"
             />
             <PasswordInput name="password" control={form.control} />
-            <p className="text-xs font-light py-1.5 leading-5 text-[#6C6C6C]">
-                By signing up you agree to our 
-                <Link className="hover:underline px-1 text-secondary" href={""}>Terms of Service</Link> and 
-                <Link className="hover:underline px-1 text-secondary" href={""}>Privacy policy</Link> and confirm that you are at least 18 years old
-            </p>
-            <Button text="SIGN UP" />
+            <div className="text-sm flex items-center justify-between mb-2">
+                <SwitchInput control={form.control} name="name" />
+                <Link href="/" className="text-xs hover:underline text-[#D93F21]">Recover Password</Link>
+            </div>
+            <Button text="LOG IN" />
         </form>
     </Form>
   )

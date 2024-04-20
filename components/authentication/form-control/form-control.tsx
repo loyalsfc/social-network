@@ -8,15 +8,46 @@ import {
     FormLabel,
     FormMessage,
   } from "@/components/ui/form"
-  import { Input } from "@/components/ui/input"
-import { Control, FieldValues } from 'react-hook-form';
+import { Control } from 'react-hook-form';
 import { Eye, EyeOffIcon } from 'lucide-react';
+import { Switch } from '@/components/ui/switch';
 
 interface Props {
     name: "password" | "name" | "email";
-    control: Control<{ name: string; email: string; password: string; }, any>;
+    control: Control<{ name: string; email: string; password: string; staySignIn: boolean }, any>;
     label?: string;
     placeholder?: string;
+}
+
+export function Button({text}:{text:string}) {
+    return(
+        <button 
+            type="submit" 
+            className="w-full px-4 py-3 rounded-[10px] bg-secondary text-white hover:bg-primary font-semibold"
+        >
+            {text}
+        </button>
+    )
+}
+
+export function SwitchInput({control, name}:Props){
+    return(
+        <FormField
+              control={control}
+              name={"staySignIn"}
+              render={({ field }) => (
+                <FormItem className="flex flex-row-reverse items-center gap-1">
+                    <FormLabel className='text-xs pt-2'>Remember Me</FormLabel>
+                    <FormControl>
+                        <Switch
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                        />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+    )
 }
 
 export function PasswordInput({
