@@ -36,20 +36,10 @@ export const Button: React.FC<ButtonProps> = ({text, ...props}) => {
 
 export function SwitchInput({name}:Props){
     return(
-        <FormField
-              name={"staySignIn"}
-              render={({ field }) => (
-                <FormItem className="flex flex-row-reverse items-center gap-1">
-                    <FormLabel className='text-xs pt-2'>Remember Me</FormLabel>
-                    <FormControl>
-                        <Switch
-                            checked={field.value}
-                            onCheckedChange={field.onChange}
-                        />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
+        <div className='flex items-center gap-2'>
+            <Switch />
+            <label>Remember Me</label>
+        </div>       
     )
 }
 
