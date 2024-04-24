@@ -1,19 +1,27 @@
 "use client"
 
 import Image from 'next/image'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Card from './card'
 import { Bell, Bookmark, ChevronLeft, CircleEllipsis, Home, LogOut, Mail, NotepadTextIcon, User2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { useDispatch } from 'react-redux'
+import { login } from '@/lib/features/user'
+import { UserInterface } from '@/@types'
 
-function Sidebar() {
+function Sidebar({user}:{user: UserInterface}) {
     const [isMenuCollapsed, setIsMenuCollapsed] = useState(false);
+    const dispatch = useDispatch()
+
+    useEffect(()=>{
+        dispatch(login(user))
+    },[])
 
     const collapseMenu = () => {
         setIsMenuCollapsed(prevState => !prevState)
     }
 
-
+    console.log(user.profile_picture)
     return (
         <aside className={cn('rounded-xl relative w-fit transition-all h-full', isMenuCollapsed ? "bg-secondary" : "bg-white")}>
             <button 
@@ -26,13 +34,13 @@ function Sidebar() {
                 {!isMenuCollapsed && <div className="h-20 w-full bg-primary/10 absolute top-0 left-0"/>}
                 <div className={cn('mx-auto relative rounded-full border-4 border-white overflow-hidden', isMenuCollapsed ? "h-16 w-16" : "h-20 w-20")}>
                     <Image
-                        src={"https://images.pexels.com/photos/1043471/pexels-photo-1043471.jpeg?auto=compress&cs=tinysrgb&w=600"}
+                        src={user.profile_picture ? user.profile_picture : "https://images.pexels.com/photos/1043471/pexels-photo-1043471.jpeg?auto=compress&cs=tinysrgb&w=600"}
                         fill
                         alt='Profile Image'
                         className='object-cover object-top'
                     />
                 </div>
-                {!isMenuCollapsed && <h4 className='text-xl font-medium text-center mt-1'>Edimulo Ebamb</h4>}
+                {!isMenuCollapsed && <h4 className='text-xl font-medium text-center mt-1'>{user.name}</h4>}
             </header>
             <nav className='px-4 pb-10'>
                 <ul className={cn('text-[#0F1419]', isMenuCollapsed ? "space-y-2.5" : "space-y-1")}>

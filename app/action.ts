@@ -85,7 +85,8 @@ export async function SignIn(prevState: any, formData: FormData){
     try {
         const response = await instance.post("/v1/sign", formBody)
         const data = response.data
-        cookies().set('access-token', data.access_token)
+        cookies().set('access-token', data?.access_token);
+        cookies().set("user-details", JSON.stringify(data?.user));
     } catch (error) {
         console.log(error)
         return {
