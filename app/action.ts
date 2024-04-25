@@ -98,3 +98,10 @@ export async function SignIn(prevState: any, formData: FormData){
         redirect("/");
     }
 }
+
+export async function signOut(){
+    cookies().delete("access-token")
+    cookies().delete("user-details")
+
+    redirect("/sign-in")
+}

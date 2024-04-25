@@ -7,7 +7,9 @@ import { Bell, Bookmark, ChevronLeft, CircleEllipsis, Home, LogOut, Mail, Notepa
 import { cn } from '@/lib/utils'
 import { useDispatch } from 'react-redux'
 import { login } from '@/lib/features/user'
+import dummyProfile from "../../public/dummy.jpg"
 import { UserInterface } from '@/@types'
+import { signOut } from '@/app/action'
 
 function Sidebar({user}:{user: UserInterface}) {
     const [isMenuCollapsed, setIsMenuCollapsed] = useState(false);
@@ -21,7 +23,6 @@ function Sidebar({user}:{user: UserInterface}) {
         setIsMenuCollapsed(prevState => !prevState)
     }
 
-    console.log(user.profile_picture)
     return (
         <aside className={cn('rounded-xl relative w-fit transition-all h-full', isMenuCollapsed ? "bg-secondary" : "bg-white")}>
             <button 
@@ -34,7 +35,7 @@ function Sidebar({user}:{user: UserInterface}) {
                 {!isMenuCollapsed && <div className="h-20 w-full bg-primary/10 absolute top-0 left-0"/>}
                 <div className={cn('mx-auto relative rounded-full border-4 border-white overflow-hidden', isMenuCollapsed ? "h-16 w-16" : "h-20 w-20")}>
                     <Image
-                        src={user.profile_picture ? user.profile_picture : "https://images.pexels.com/photos/1043471/pexels-photo-1043471.jpeg?auto=compress&cs=tinysrgb&w=600"}
+                        src={user.profile_picture ? user.profile_picture : dummyProfile}
                         fill
                         alt='Profile Image'
                         className='object-cover object-top'
@@ -81,7 +82,12 @@ function Sidebar({user}:{user: UserInterface}) {
                     />
                 </ul>
             </nav>
-            {isMenuCollapsed && <button className='mt-auto w-full bg-[#00D2A8] text-white flex justify-center py-4 rounded-md cursor-pointer hover:bg-black/10'>
+            {isMenuCollapsed && <button 
+                className='mt-auto w-full bg-[#00D2A8] text-white flex justify-center py-4 rounded-md cursor-pointer hover:bg-black/10'
+                onClick={async()=>{
+                    await signOut()
+                }}
+            >
                 <LogOut />
             </button>}
         </aside>

@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import React, { ReactNode } from 'react'
-import authImage from "../../public/authentication.png"
+import authImage from "../../public/authentications.png"
 import { Poppins } from 'next/font/google'
 import { cn } from '@/lib/utils';
 import { cookies } from 'next/headers';
