@@ -105,3 +105,14 @@ export async function signOut(){
 
     redirect("/sign-in")
 }
+
+export async function fetchUser(username: string){
+    const response = await instance.get(`/v1/user?username=${username}`)
+
+    if (response.status != 200) {
+        return {
+            status: "user not found"
+        }
+    }
+    return response.data
+}

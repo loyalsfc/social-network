@@ -8,12 +8,13 @@ import React from 'react'
 interface Props {
     Icon: React.FC,
     text: string,
-    menuCollapsed: boolean
+    menuCollapsed: boolean,
+    link?: string
 }
 
-function Card({Icon, text, menuCollapsed}: Props) {
+function Card({Icon, text, menuCollapsed, link}: Props) {
     const pathName = usePathname()
-    const route = `/${text === "home" ? "" : text}`
+    const route = `/${text === "home" ? "" : link ?? text}`
     
     return (
         <li className={cn(pathName === route ? "bg-secondary text-white" : "", "rounded-md ")}>

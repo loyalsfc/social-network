@@ -74,6 +74,7 @@ function Sidebar({user}:{user: UserInterface}) {
                         Icon={User2}
                         text='profile'
                         menuCollapsed={isMenuCollapsed}
+                        link={user.username}
                     />
                     <Card
                         Icon={CircleEllipsis}

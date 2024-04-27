@@ -13,7 +13,7 @@ function AuthLayout({
 }:{
     children: ReactNode
 }) {
-    console.log("cookies", cookies().get('access-token')?.value)
+    
     if(cookies().get('access-token')?.value){
         redirect("/")
     }

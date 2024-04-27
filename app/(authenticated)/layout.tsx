@@ -12,7 +12,7 @@ export default function Layout({
   if(!cookies().get('access-token')?.value){
     redirect("/sign-in")
   }
-
+  
   const user = JSON.parse(cookies().get('user-details')?.value ?? "");
 
   return (
