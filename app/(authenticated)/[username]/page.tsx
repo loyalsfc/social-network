@@ -8,15 +8,17 @@ import { cookies } from 'next/headers'
 import { UserInterface } from '@/@types'
 import  dummyProfile from '../../../public/dummy.jpg'
 import { fetchUser } from '@/app/action'
+import Edit from '@/components/profile/edit-profile/edit'
+import ProfilePicture from '@/components/profile/profile-picture/profile-picture'
 
 async function name(username: string) {
     return fetchUser(username)
 }
 
 async function Page({params}:{params: {username: string}}) {
-    const user2 = await name(params.username)
-    console.log(user2)
-    const user:UserInterface = JSON.parse(cookies().get("user-details")?.value ?? "")
+    const user = await name(params.username)
+    // console.log(user2)
+    // const user:UserInterface = JSON.parse(cookies().get("user-details")?.value ?? "")
     return (
         <main className='w-full px-4 overflow-y-scroll h-full'>
             <div className='relative'>
@@ -26,16 +28,8 @@ async function Page({params}:{params: {username: string}}) {
                 />
                 <div className='px-10 bg-white pb-8'>
                     <div className='flex items-end gap-6'>
-                        <div className='relative border-4 w-32 -mt-12 h-[118px] border-white rounded-md'>
-                            <Image
-                                src={user.profile_picture ? user.profile_picture : dummyProfile}
-                                fill
-                                alt='Profile image'
-                            />
-                        </div>
-                        <Link href={"/profile/edit"} className='profile-btn ml-auto'>
-                            <Edit2 />
-                        </Link>
+                        <ProfilePicture />
+                        <Edit username={params.username} />
                         <button className='profile-btn'>
                             <Share2 />
                         </button>

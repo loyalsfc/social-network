@@ -107,12 +107,22 @@ export async function signOut(){
 }
 
 export async function fetchUser(username: string){
-    const response = await instance.get(`/v1/user?username=${username}`)
-
-    if (response.status != 200) {
+    const accessToken = cookies().get("access-token")?.value;
+    instance.defaults.headers.common["Authorization"] = `ApiKey ${accessToken}`
+    try {
+        const response = await instance.get(`/v1/user?username=${username}`)
+        return response.data
+    } catch (error) {
+        console.log(error)
         return {
-            status: "user not found"
+            status: "User not found"
         }
     }
-    return response.data
+    // console.log(response)
+    // if (response.status != 200) {
+    //     return {
+    //         status: "user not found"
+    //     }
+    // }
+    
 }
