@@ -10,6 +10,7 @@ import  dummyProfile from '../../../public/dummy.jpg'
 import { fetchUser } from '@/app/action'
 import Edit from '@/components/profile/edit-profile/edit'
 import ProfilePicture from '@/components/profile/profile-picture/profile-picture'
+import NotFound from '@/components/not-found/not-found'
 
 async function name(username: string) {
     return fetchUser(username)
@@ -17,11 +18,12 @@ async function name(username: string) {
 
 async function Page({params}:{params: {username: string}}) {
     const user = await name(params.username)
-    // console.log(user2)
-    // const user:UserInterface = JSON.parse(cookies().get("user-details")?.value ?? "")
+    
     return (
         <main className='w-full px-4 overflow-y-scroll h-full'>
-            <div className='relative'>
+            {user?.status ? <div className='h-full grid place-content-center'>
+                <NotFound/>
+            </div>:<div className='relative'>
                 <div 
                     className='h-[189px] w-full bg-cover'
                     style={{backgroundImage: `url('${user.cover_picture ? user.cover_picture : "https://images.pexels.com/photos/5109665/pexels-photo-5109665.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"}')`}}
@@ -73,7 +75,7 @@ async function Page({params}:{params: {username: string}}) {
                         </div>
                     </div>
                 </section>
-            </div>
+            </div>}
         </main>
     )
 }
