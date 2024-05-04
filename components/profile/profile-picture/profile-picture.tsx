@@ -8,7 +8,7 @@ import { useAppSelector } from '@/lib/hook'
 
 function ProfilePicture() {
     const {user} = useAppSelector(state => state.user)
-
+    
     return (
         <div className='relative border-4 w-32 -mt-12 h-[118px] border-white rounded-md mr-auto group'>
             <Image

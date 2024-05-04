@@ -8,7 +8,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import { LegacyRef, ReactNode } from "react"
+import { cn } from "@/lib/utils"
+import { FC, LegacyRef, ReactNode } from "react"
 
 interface Props{
     children: ReactNode,
@@ -19,6 +20,7 @@ interface Props{
     showFooter?: boolean,
     className?: string,
     modalBtnRef?: LegacyRef<HTMLButtonElement>
+    Icon?: FC
 }
 
 export function ModalWrapper({
@@ -29,12 +31,19 @@ export function ModalWrapper({
     showFooter,
     footerButtonText,
     className,
-    modalBtnRef
+    modalBtnRef,
+    Icon
 }:Props) {
   return (
     <Dialog>
         <DialogTrigger asChild>
-            <button ref={modalBtnRef} className={className}>{btnText}</button>
+            <button 
+                ref={modalBtnRef} 
+                className={cn("flex items-center gap-2", className)}
+            >
+                {Icon && <Icon />}
+                {btnText}
+            </button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>

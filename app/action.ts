@@ -137,12 +137,12 @@ export async function uploadImage(file: File){
     }
 }
 
-export async function changeProfilePicture(image_url: string){
+export async function changeProfilePicture(image_url: string, path: string, key: string){
     const accessToken = cookies().get("access-token")?.value;
     instance.defaults.headers.common["Authorization"] = `ApiKey ${accessToken}`
     try {
-        const response = await instance.put(`/v1/update-profile-image`,{
-            profile_image: image_url
+        const response = await instance.put(`/v1/${path}`,{
+            [key]: image_url
         })
         const data = response.data
         cookies().set("user-details", JSON.stringify(data));

@@ -7,6 +7,7 @@ import { fetchUser } from '@/app/action'
 import Edit from '@/components/profile/edit-profile/edit'
 import ProfilePicture from '@/components/profile/profile-picture/profile-picture'
 import NotFound from '@/components/not-found/not-found'
+import CoverPicture from '@/components/profile/cover-picture/cover-picture'
 
 async function name(username: string) {
     return fetchUser(username)
@@ -20,13 +21,10 @@ async function Page({params}:{params: {username: string}}) {
             {user?.status ? <div className='h-full grid place-content-center'>
                 <NotFound/>
             </div>:<div className='relative'>
-                <div 
-                    className='h-[189px] w-full bg-cover'
-                    style={{backgroundImage: `url('${user.cover_picture ? user.cover_picture : "https://images.pexels.com/photos/5109665/pexels-photo-5109665.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"}')`}}
-                />
+                <CoverPicture />
                 <div className='px-10 bg-white pb-8'>
                     <div className='flex items-end gap-6'>
-                        <ProfilePicture />
+                        <ProfilePicture username={params.username} />
                         <Edit username={params.username} />
                         <button className='profile-btn'>
                             <Share2 />
