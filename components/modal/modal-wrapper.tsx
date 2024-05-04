@@ -8,9 +8,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { ReactNode } from "react"
+import { LegacyRef, ReactNode } from "react"
 
 interface Props{
     children: ReactNode,
@@ -19,7 +17,8 @@ interface Props{
     description?: string,
     footerButtonText?: string,
     showFooter?: boolean,
-    className?: string
+    className?: string,
+    modalBtnRef?: LegacyRef<HTMLButtonElement>
 }
 
 export function ModalWrapper({
@@ -29,12 +28,13 @@ export function ModalWrapper({
     description,
     showFooter,
     footerButtonText,
-    className
+    className,
+    modalBtnRef
 }:Props) {
   return (
     <Dialog>
         <DialogTrigger asChild>
-            <button className={className}>{btnText}</button>
+            <button ref={modalBtnRef} className={className}>{btnText}</button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>

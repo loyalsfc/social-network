@@ -112,17 +112,45 @@ export async function fetchUser(username: string){
     try {
         const response = await instance.get(`/v1/user?username=${username}`)
         return response.data
-    } catch (error) {
+    } catch (error: any) {
         console.log(error)
         return {
-            status: "User not found"
+            status: error?.data?.error
         }
     }
-    // console.log(response)
-    // if (response.status != 200) {
-    //     return {
-    //         status: "user not found"
-    //     }
-    // }
-    
+}
+
+export async function uploadImage(file: File){
+    try {
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("upload_preset", "fledge");
+        const response = await axios.post(
+            `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
+            formData
+        )
+        return response.data
+    } catch (error: any) {
+        return {
+            status: error.response.data
+        }
+    }
+}
+
+export async function changeProfilePicture(image_url: string){
+    const accessToken = cookies().get("access-token")?.value;
+    instance.defaults.headers.common["Authorization"] = `ApiKey ${accessToken}`
+    try {
+        const response = await instance.put(`/v1/update-profile-image`,{
+            profile_image: image_url
+        })
+        const data = response.data
+        cookies().set("user-details", JSON.stringify(data));
+        return data
+    } catch (error: any) {
+        console.log(error)
+        return {
+            status: error?.data?.error
+        }
+    }
 }
