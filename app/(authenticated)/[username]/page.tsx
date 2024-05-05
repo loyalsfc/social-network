@@ -8,6 +8,7 @@ import Edit from '@/components/profile/edit-profile/edit'
 import ProfilePicture from '@/components/profile/profile-picture/profile-picture'
 import NotFound from '@/components/not-found/not-found'
 import CoverPicture from '@/components/profile/cover-picture/cover-picture'
+import { cookies } from 'next/headers'
 
 async function name(username: string) {
     return fetchUser(username)
@@ -15,16 +16,35 @@ async function name(username: string) {
 
 async function Page({params}:{params: {username: string}}) {
     const user = await name(params.username)
+    const defaultUser = JSON.parse(cookies().get('user-details')?.value ?? "");
     
+    //Check if the profile page is the user's page
+    const isUserPage = defaultUser.username === params.username
+
+    console.log(user)
+
     return (
         <main className='w-full px-4 overflow-y-scroll h-full'>
             {user?.status ? <div className='h-full grid place-content-center'>
                 <NotFound/>
             </div>:<div className='relative'>
-                <CoverPicture />
+                {isUserPage ? <CoverPicture /> : <div 
+                        className='h-[189px] w-full bg-cover relative group'
+                        style={{backgroundImage: `url('${user?.cover_picture ? user.cover_picture : "https://images.pexels.com/photos/5109665/pexels-photo-5109665.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"}')`}}
+                    >
+                
+                    </div>
+                }
                 <div className='px-10 bg-white pb-8'>
                     <div className='flex items-end gap-6'>
-                        <ProfilePicture username={params.username} />
+                        {isUserPage ? <ProfilePicture /> : <div className='relative border-4 w-32 -mt-12 h-[118px] border-white rounded-md mr-auto group'>
+                            <Image
+                                src={user?.profile_picture ? user?.profile_picture : "/dummy.jpg"}
+                                fill
+                                alt='Profile image'
+                                className='object-cover object-top'
+                            />
+                        </div>}
                         <Edit username={params.username} />
                         <button className='profile-btn'>
                             <Share2 />

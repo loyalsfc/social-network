@@ -12,7 +12,7 @@ function ProfilePicture() {
     return (
         <div className='relative border-4 w-32 -mt-12 h-[118px] border-white rounded-md mr-auto group'>
             <Image
-                src={user?.profile_picture ? user?.profile_picture : dummyProfile}
+                src={user?.profile_picture ?? dummyProfile}
                 fill
                 alt='Profile image'
                 className='object-cover object-top'

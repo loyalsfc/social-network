@@ -113,9 +113,9 @@ export async function fetchUser(username: string){
         const response = await instance.get(`/v1/user?username=${username}`)
         return response.data
     } catch (error: any) {
-        console.log(error)
+        console.log(error.response)
         return {
-            status: error?.data?.error
+            status: error?.response?.data?.error
         }
     }
 }
