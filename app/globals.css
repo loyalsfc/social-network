@@ -28,6 +28,9 @@
     .auth-input{
         @apply bg-white text-sm p-4 w-full border border-[#D9D9D9] rounded-[10px] focus:outline-secondary
     }
+    .profile-input{
+        @apply pt-5 block w-full pl-2 pb-1 border border-[#D9D9D9] rounded focus:outline-secondary
+    }
 }
 
 .snippet-ellipsis{

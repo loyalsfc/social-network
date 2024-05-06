@@ -3,6 +3,7 @@ import { z } from "zod"
 import axios from "axios"
 import { redirect } from "next/navigation";
 import { cookies } from 'next/headers'
+import { toast } from "react-toastify";
 
 const instance = axios.create({
     baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
@@ -151,6 +152,48 @@ export async function changeProfilePicture(image_url: string, path: string, key:
         console.log(error)
         return {
             status: error?.data?.error
+        }
+    }
+}
+
+const updateSchema = z.object({
+    name: z.string().min(2,{
+        message: "Name can not be less than two characters"
+    }),
+    bio: z.string().optional(),
+    profession: z.string().optional()
+})
+
+export async function updateProfile(prevState: any, formData: FormData){
+    const accessToken = cookies().get("access-token")?.value;
+    instance.defaults.headers.common["Authorization"] = `ApiKey ${accessToken}`
+    const validatedFields = updateSchema.safeParse({
+        name: formData.get("name"),
+        bio: formData.get("bio"),
+        profession: formData.get("profession")
+    })
+
+    if(!validatedFields.success){
+        return{
+            message: JSON.parse(validatedFields.error.message)[0].message
+        }
+    }
+
+    const {name, profession, bio} = validatedFields.data;
+    let success
+    try {
+        const response = await instance.put("/v1/update-user-profile", {
+            name, profession, bio
+        })
+        const data = response.data;
+        cookies().set("user-details", JSON.stringify(data));
+        success = true;
+        return {
+            message: "Edit Successful"
+        }
+    } catch (error: any) {
+        return {
+            message: error?.data?.error
         }
     }
 }

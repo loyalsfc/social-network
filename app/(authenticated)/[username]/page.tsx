@@ -9,6 +9,7 @@ import ProfilePicture from '@/components/profile/profile-picture/profile-picture
 import NotFound from '@/components/not-found/not-found'
 import CoverPicture from '@/components/profile/cover-picture/cover-picture'
 import { cookies } from 'next/headers'
+import Follow from '@/components/profile/profile-picture/follow'
 
 async function name(username: string) {
     return fetchUser(username)
@@ -21,8 +22,6 @@ async function Page({params}:{params: {username: string}}) {
     //Check if the profile page is the user's page
     const isUserPage = defaultUser.username === params.username
 
-    console.log(user)
-
     return (
         <main className='w-full px-4 overflow-y-scroll h-full'>
             {user?.status ? <div className='h-full grid place-content-center'>
@@ -30,7 +29,7 @@ async function Page({params}:{params: {username: string}}) {
             </div>:<div className='relative'>
                 {isUserPage ? <CoverPicture /> : <div 
                         className='h-[189px] w-full bg-cover relative group'
-                        style={{backgroundImage: `url('${user?.cover_picture ? user.cover_picture : "https://images.pexels.com/photos/5109665/pexels-photo-5109665.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"}')`}}
+                        style={{backgroundImage: `url('${user?.cover_picture}')`}}
                     >
                 
                     </div>
@@ -45,7 +44,8 @@ async function Page({params}:{params: {username: string}}) {
                                 className='object-cover object-top'
                             />
                         </div>}
-                        <Edit username={params.username} />
+                        {!isUserPage && <Follow />}
+                        {isUserPage && <Edit/>}
                         <button className='profile-btn'>
                             <Share2 />
                         </button>
@@ -57,6 +57,11 @@ async function Page({params}:{params: {username: string}}) {
                             <span className='text-[#263B42] font-thin text-lg'>@{user.username}</span>
                         </h1>
                         <h4>{user.profession}</h4>
+
+                        <div className='flex gap-4'>
+                            <span>0 following</span>
+                            <span>0 followers</span>
+                        </div>
 
                         <div>
                             <h5 className='text-dark text-xl font-medium mb-3'>About Me</h5>

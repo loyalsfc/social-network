@@ -19,8 +19,9 @@ interface Props{
     footerButtonText?: string,
     showFooter?: boolean,
     className?: string,
-    modalBtnRef?: LegacyRef<HTMLButtonElement>
-    Icon?: FC
+    modalBtnRef?: LegacyRef<HTMLButtonElement>,
+    Icon?: FC,
+    size?: string,
 }
 
 export function ModalWrapper({
@@ -32,7 +33,8 @@ export function ModalWrapper({
     footerButtonText,
     className,
     modalBtnRef,
-    Icon
+    Icon,
+    size
 }:Props) {
   return (
     <Dialog>
@@ -45,7 +47,7 @@ export function ModalWrapper({
                 {btnText}
             </button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className={cn(size ?? "sm:max-w-[425px]")}>
             <DialogHeader>
                 <DialogTitle>{title}</DialogTitle>
                 <DialogDescription>

@@ -8,6 +8,7 @@ import { useAppDispatch } from '@/lib/hook'
 import { login } from '@/lib/features/user'
 import RemoveProfilePicture from './remove-profile-picture'
 import ShowProfilePicture from './show-profile-picture'
+import { uploadImage } from '@/lib/utils'
 
 function EditProfilePicture() {
     const dispatch = useAppDispatch();
@@ -30,22 +31,12 @@ function EditProfilePicture() {
     const handleOnChange = async(event: ChangeEvent<HTMLInputElement>) => {
         const newImage = event.target.files![0]
         
-        try {
-            const formData = new FormData();
-            formData.append("file", newImage);
-            formData.append("upload_preset", "fledge");
-            const response = await axios.post(
-                `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
-                formData
-            )
-            const url = response.data?.secure_url
-
-            const newProfile = await changeProfilePicture(url, "update-profile-image", "profile_image");
-            dispatch(login(newProfile));
-            modalBtnRef.current?.click();
-        } catch (error: any) {
-            console.log(error.response.data)
-        }
+        const data = await uploadImage(newImage);
+        
+        const url = data?.secure_url;
+        const newProfile = await changeProfilePicture(url, "update-profile-image", "profile_image");
+        dispatch(login(newProfile));
+        modalBtnRef.current?.click();
     }
 
     return (

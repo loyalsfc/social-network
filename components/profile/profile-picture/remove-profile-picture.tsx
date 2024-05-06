@@ -17,7 +17,7 @@ function RemoveProfilePicture() {
 
     const remove = async(event: any) => {
         event.target.disabled = true;
-        const newProfile = await changeProfilePicture("", "update-profile-image", "profile_image");
+        const newProfile = await changeProfilePicture("/dummy.jpg", "update-profile-image", "profile_image");
         dispatch(login(newProfile));
         event.target.disabled = false;
         close();

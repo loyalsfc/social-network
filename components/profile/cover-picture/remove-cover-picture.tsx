@@ -2,13 +2,12 @@ import { changeProfilePicture } from '@/app/action'
 import { ModalWrapper } from '@/components/modal/modal-wrapper'
 import { Button } from '@/components/ui/button'
 import { login } from '@/lib/features/user'
-import { useAppDispatch, useAppSelector } from '@/lib/hook'
+import { useAppDispatch } from '@/lib/hook'
 import { X } from 'lucide-react'
 import React, { createRef } from 'react'
 
 function RemoveCoverPicture() {
     const dispatch = useAppDispatch();
-    const {user} = useAppSelector(state => state.user)
     const ref = createRef<HTMLButtonElement>()
 
     const close = () => {
@@ -17,7 +16,10 @@ function RemoveCoverPicture() {
 
     const remove = async(event: any) => {
         event.target.disabled = true;
-        const newProfile = await changeProfilePicture("", "update-cover-image", "cover_image");
+        const newProfile = await changeProfilePicture("https://res.cloudinary.com/dplpf3g05/image/upload/fl_preserve_transparency/v1714867594/pexels-photo-5109665_hzr15h.jpg", 
+            "update-cover-image", 
+            "cover_image"
+        );
         dispatch(login(newProfile));
         event.target.disabled = false;
         close();
@@ -25,7 +27,7 @@ function RemoveCoverPicture() {
 
     return (
         <ModalWrapper
-        modalBtnRef={ref}
+            modalBtnRef={ref}
             title='Remove Cover Picture'
             btnText=''
             Icon={X}

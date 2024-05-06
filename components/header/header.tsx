@@ -5,12 +5,13 @@ import React from 'react'
 import { Input } from '../ui/input'
 import { Bell, Search } from 'lucide-react'
 import Logo from '../logo/logo'
+import Link from 'next/link'
 
 function Header() {
     return (
         <header className='bg-white py-2.5'>
             <div className='max-w-7xl mx-auto flex items-center justify-between'>
-                <Logo />
+                <Link href={"/"}><Logo /></Link>
 
                 <div className='w-full max-w-4xl rounded-full overflow-hidden relative'>
                     <Input className='w-full border border-black/15 h-11 rounded-full focus:border-primary' />

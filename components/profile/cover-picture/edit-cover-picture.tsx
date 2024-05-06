@@ -16,7 +16,7 @@ function EditCoverPicture() {
         const data = await uploadImage(file);
         
         const url = data?.secure_url;
-        console.log(url)
+        
         if(url) {
             const newProfile = await changeProfilePicture(url, "update-cover-image", "cover_image");
             dispatch(login(newProfile));
