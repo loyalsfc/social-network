@@ -1,6 +1,6 @@
 'use server'
 import { z } from "zod"
-import axios from "axios"
+import axios, { AxiosError } from "axios"
 import { redirect } from "next/navigation";
 import { cookies } from 'next/headers'
 import { toast } from "react-toastify";
@@ -194,6 +194,59 @@ export async function updateProfile(prevState: any, formData: FormData){
     } catch (error: any) {
         return {
             message: error?.data?.error
+        }
+    }
+}
+
+export const followUser = async(followerId: string, followingId: string, path: "follow" | "unfollow") => {
+    try {   
+        const response = await instance.post(`/v1/${path}`, {
+            following: followingId,
+            follower: followerId
+        })
+        return response.data
+    } catch (error: any) {
+        console.log(error.response.data)
+        return {
+            error: error?.response?.data
+        }
+    }
+}
+
+export const getFollowInfo = async(userId: string) => {
+    try {
+        const [followers, following] = await Promise.all([instance.get(`/v1/get-followers?id=${userId}`), instance.get(`/v1/get-following?id=${userId}`)])
+        return{
+            followers: followers.data, following: following.data
+        }
+    } catch (error: any) {
+        console.log(error.response)
+        return {
+            error: error?.response?.data
+        }
+    }
+}
+
+export const getFollowers = async(userId: string) => {
+    try {
+        const response = await instance.get(`/v1/get-followers?id=${userId}`)
+        return response.data
+    } catch (error: any) {
+        console.log(error.response)
+        return {
+            error: error?.response?.data
+        }
+    }
+}
+
+export const getFollowings = async(userId: string) => {
+    try {
+        const response = await instance.get(`/v1/get-following?id=${userId}`)
+        return response.data
+    } catch (error: any) {
+        console.log(error.response)
+        return {
+            error: error?.response?.data
         }
     }
 }

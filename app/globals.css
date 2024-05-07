@@ -31,6 +31,12 @@
     .profile-input{
         @apply pt-5 block w-full pl-2 pb-1 border border-[#D9D9D9] rounded focus:outline-secondary
     }
+    .tab{
+        @apply py-1.5 px-4 w-fit hover:bg-secondary/30 mx-auto
+    }
+    .active-tabs{
+        @apply font-bold border-b-4 border-b-secondary
+    }
 }
 
 .snippet-ellipsis{

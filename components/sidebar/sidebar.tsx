@@ -10,13 +10,32 @@ import { login } from '@/lib/features/user'
 import dummyProfile from "../../public/dummy.jpg"
 import { UserInterface } from '@/@types'
 import { signOut } from '@/app/action'
+import { initFollowList } from '@/lib/features/follow'
 
-function Sidebar({user}:{user: UserInterface}) {
+interface FollowInfo {
+    followers?: UserInterface[];
+    following?: UserInterface[];
+}
+
+function Sidebar({
+    user,
+    followInfo
+}:{
+    user: UserInterface,
+    followInfo: FollowInfo
+}) {
     const [isMenuCollapsed, setIsMenuCollapsed] = useState(false);
     const dispatch = useDispatch()
 
     useEffect(()=>{
+        const followersId = followInfo.followers?.map(item => item.id)
+        const followingsId = followInfo.following?.map(item => item.id)
+        
         dispatch(login(user))
+        dispatch(initFollowList({
+            following: followingsId,
+            followers: followersId
+        }))
     },[])
 
     const collapseMenu = () => {
