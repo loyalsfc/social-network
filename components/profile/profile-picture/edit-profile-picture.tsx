@@ -3,7 +3,6 @@
 import React, { ChangeEvent, createRef, useState } from 'react'
 import { ModalWrapper } from '@/components/modal/modal-wrapper'
 import { changeProfilePicture } from '@/app/action'
-import axios from 'axios'
 import { useAppDispatch } from '@/lib/hook'
 import { login } from '@/lib/features/user'
 import RemoveProfilePicture from './remove-profile-picture'
@@ -12,21 +11,8 @@ import { uploadImage } from '@/lib/utils'
 
 function EditProfilePicture() {
     const dispatch = useAppDispatch();
-    const [image, _SetImage] = useState("");
     const inputFileRef = createRef<HTMLInputElement>();
     const modalBtnRef = createRef<HTMLButtonElement>();
-
-    const cleanUp = () => {
-        URL.revokeObjectURL(image)
-        if(inputFileRef?.current) inputFileRef.current.value = ""
-    }
-
-    const setImage = (newImage: string) => {
-        if(image){
-            cleanUp()
-        }
-        _SetImage(newImage)
-    }
 
     const handleOnChange = async(event: ChangeEvent<HTMLInputElement>) => {
         const newImage = event.target.files![0]

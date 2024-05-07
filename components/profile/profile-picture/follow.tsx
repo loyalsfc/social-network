@@ -3,31 +3,36 @@
 import { followUser } from '@/app/action'
 import { Button } from '@/components/ui/button'
 import { useAppDispatch, useAppSelector } from '@/lib/hook'
-import { UserCheck2, UserPlus2Icon } from 'lucide-react'
+import { UserPlus2Icon } from 'lucide-react'
 import React from 'react'
 import Unfollow from './unfollow'
+import { addToFollowing } from '@/lib/features/follow'
+import { useRouter } from 'next/navigation'
 
 function Follow({userToFollowId}:{userToFollowId: string}) {
     const {user} = useAppSelector(state => state.user);
-    const {following, followers} = useAppSelector(state => state.followList);
+    const {following} = useAppSelector(state => state.followList);
     const dispatch = useAppDispatch();
+    const router = useRouter();
 
     const handleFollow = async() => {
         if(!user?.id) return;
         const data = await followUser(user?.id, userToFollowId, "follow");
-        console.log(data)
+        if(!data?.error){
+            router.refresh()
+            dispatch(addToFollowing(userToFollowId));
+        }
     }
-    console.log(following);
-    // console.log(followers)
+
     return (
         <Button 
             className='bg-primary'
         >
-            {!following.find(item => item === userToFollowId) ? 
+            {following.find(item => item === userToFollowId) ? 
+                <Unfollow userToFollowId={userToFollowId} /> :
                 <span onClick={handleFollow} className='flex items-center gap-2'>
                     <UserPlus2Icon/> Follow
-                </span> :
-            <Unfollow userToFollowId={userToFollowId} /> 
+                </span>
             }
         </Button>
     )

@@ -15,10 +15,8 @@ const followSlice = createSlice({
     initialState,
     reducers:  {
         initFollowList: (state, action) => {
-            console.log(action.payload)
-            console.log(state)
-            state = action.payload
-            console.log(state)
+            state.following = action.payload.following;
+            state.followers = action.payload.followers;
         },
         addToFollowing: (state, action) => {
             state.following.push(action.payload)
