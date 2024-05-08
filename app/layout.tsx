@@ -1,11 +1,6 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
-import { Provider } from 'react-redux'
-import { store } from "@/lib/store";
 import StateWrapper from "@/components/state-wrapper/state-wrapper";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Fledge",

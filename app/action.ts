@@ -1,9 +1,13 @@
 'use server'
 import { z } from "zod"
-import axios, { AxiosError } from "axios"
+import axios from "axios"
 import { redirect } from "next/navigation";
 import { cookies } from 'next/headers'
-import { toast } from "react-toastify";
+
+function setAuthorization(){
+    const accessToken = cookies().get("access-token")?.value;
+    instance.defaults.headers.common["Authorization"] = `ApiKey ${accessToken}`
+}
 
 const instance = axios.create({
     baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
@@ -88,6 +92,7 @@ export async function SignIn(prevState: any, formData: FormData){
         const data = response.data
         cookies().set('access-token', data?.access_token);
         cookies().set("user-details", JSON.stringify(data?.user));
+        instance.defaults.headers.common["Authorization"] = `ApiKey ${data?.access_token}`
     } catch (error) {
         console.log(error)
         return {
@@ -108,8 +113,7 @@ export async function signOut(){
 }
 
 export async function fetchUser(username: string){
-    const accessToken = cookies().get("access-token")?.value;
-    instance.defaults.headers.common["Authorization"] = `ApiKey ${accessToken}`
+    setAuthorization();
     try {
         const response = await instance.get(`/v1/user?username=${username}`)
         return response.data
@@ -139,8 +143,7 @@ export async function uploadImage(file: File){
 }
 
 export async function changeProfilePicture(image_url: string, path: string, key: string){
-    const accessToken = cookies().get("access-token")?.value;
-    instance.defaults.headers.common["Authorization"] = `ApiKey ${accessToken}`
+    setAuthorization()
     try {
         const response = await instance.put(`/v1/${path}`,{
             [key]: image_url
@@ -165,8 +168,7 @@ const updateSchema = z.object({
 })
 
 export async function updateProfile(prevState: any, formData: FormData){
-    const accessToken = cookies().get("access-token")?.value;
-    instance.defaults.headers.common["Authorization"] = `ApiKey ${accessToken}`
+    setAuthorization();
     const validatedFields = updateSchema.safeParse({
         name: formData.get("name"),
         bio: formData.get("bio"),
@@ -199,6 +201,7 @@ export async function updateProfile(prevState: any, formData: FormData){
 }
 
 export const followUser = async(followerId: string, followingId: string, path: "follow" | "unfollow") => {
+    setAuthorization();
     try {   
         const response = await instance.post(`/v1/${path}`, {
             following: followingId,
@@ -214,6 +217,7 @@ export const followUser = async(followerId: string, followingId: string, path: "
 }
 
 export const getFollowInfo = async(userId: string) => {
+    setAuthorization();
     try {
         const [followers, following] = await Promise.all([instance.get(`/v1/get-followers?id=${userId}`), instance.get(`/v1/get-following?id=${userId}`)])
         return{
@@ -228,6 +232,7 @@ export const getFollowInfo = async(userId: string) => {
 }
 
 export const getFollowers = async(userId: string) => {
+    setAuthorization();
     try {
         const response = await instance.get(`/v1/get-followers?id=${userId}`)
         return response.data
@@ -245,6 +250,19 @@ export const getFollowings = async(userId: string) => {
         return response.data
     } catch (error: any) {
         console.log(error.response)
+        return {
+            error: error?.response?.data
+        }
+    }
+}
+
+export async function newPost(body: {}){
+    setAuthorization();
+    try {
+        const response = await instance.post("/v1/new-post", body);
+        return response.data;
+    } catch (error: any) {
+        console.log(error.response);
         return {
             error: error?.response?.data
         }

@@ -9,7 +9,7 @@ function Page() {
         <div>
             <AuthWrapper
                 headertext="Don't have an account?"
-                headerLink='/sign-up'
+                headerLink='/registration'
                 headerLinkText='Sign up'
                 title='Welcome Back'
                 note='Login into your account'

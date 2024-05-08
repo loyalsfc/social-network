@@ -9,8 +9,8 @@ const Page = () => {
                 <p className="text-gray-700 mb-8">
                 Thank you for registering. Your account has been successfully created.
                 </p>
-                <Link href="/">
-                    <span className="text-secondary hover:underline">Back to Home</span>
+                <Link href="/log-in">
+                    <span className="text-secondary hover:underline">Click here to login</span>
                 </Link>
             </main>
         </div>

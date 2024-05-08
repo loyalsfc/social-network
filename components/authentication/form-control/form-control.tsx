@@ -20,7 +20,7 @@ export const Button: React.FC<ButtonProps> = ({text, ...props}) => {
         <button 
             {...props}
             type="submit" 
-            className="w-full px-4 py-3 rounded-[10px] bg-secondary text-white hover:bg-primary font-semibold"
+            className="w-full px-4 py-3 rounded-[10px] bg-secondary text-white hover:bg-primary font-semibold disabled:bg-grey-100"
         >
             {text}
         </button>
