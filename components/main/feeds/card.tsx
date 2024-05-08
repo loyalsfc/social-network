@@ -7,6 +7,8 @@ import TimeAgo from 'javascript-time-ago'
 import en from 'javascript-time-ago/locale/en'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
+import { PostInterface } from '@/@types'
+import CardImages from './card-images'
 
 TimeAgo.addDefaultLocale(en)
 const timeAgo = new TimeAgo('en-US')
@@ -17,7 +19,7 @@ interface Props {
     username: string;
     date: Date;
     caption: string;
-    photo?:string;
+    media?: PostInterface["media"];
     likes: number;
     comments: number;
     bookmarks: number;
@@ -30,7 +32,7 @@ function Card({
     username,
     date,
     caption,
-    photo,
+    media,
     likes,
     comments,
     bookmarks,
@@ -44,6 +46,7 @@ function Card({
                         src={profilePicture}
                         fill
                         alt='Profile picture'
+                        className='object-cover object-top'
                     />
                 </div>
                 <h4 className='font-medium text-lg text-[#06090C]'>{fullName}</h4>
@@ -56,19 +59,12 @@ function Card({
                 </button>
             </div>
             <p 
-                className={cn(photo ? 'font-thin text-black mb-5 pl-[58px]' : "pt-4")}
+                className={cn(media?.length ? 'font-thin text-black mb-5 pl-[58px]' : "pt-4")}
             >
                 {caption}
             </p>
-            {photo && <div className='w-full aspect-[630/279] relative'>
-                <Image
-                    src={photo}
-                    fill
-                    alt='post image'
-                    className='object-cover object-top'
-                />
-            </div>}
-            <div className='text-[#4E6876] flex items-center gap-8 pt-4'>
+            {media?.length && <CardImages media={media}/>}
+            <div className='text-[#1c2022] flex items-center gap-8 pt-4'>
                 <button className='reaction-btn'>
                     <Heart />
                     <span>{likes}</span>

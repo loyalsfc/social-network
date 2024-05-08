@@ -3,7 +3,7 @@ import dummyData from '@/data/dummy-data'
 import Image from 'next/image'
 import { Share2 } from 'lucide-react'
 import Feeds from '@/components/main/feeds/feeds'
-import { fetchUser, getFollowInfo } from '@/app/action'
+import { fetchUser, getFollowInfo, getUserPosts } from '@/app/action'
 import Edit from '@/components/profile/edit-profile/edit'
 import ProfilePicture from '@/components/profile/profile-picture/profile-picture'
 import NotFound from '@/components/not-found/not-found'
@@ -21,9 +21,10 @@ async function Page({params}:{params: {username: string}}) {
     const user: UserInterface = await name(params.username)
     const defaultUser = JSON.parse(cookies().get('user-details')?.value ?? "");
     const followInfo = await getFollowInfo(user.id);
+    const userPosts = await getUserPosts(params.username)
     
     //Check if the profile page is the user's page
-    const isUserPage = defaultUser.username === params.username
+    const isUserPage = defaultUser.username === params.username;
 
     return (
         <main className='w-full px-4 overflow-y-scroll h-full'>
@@ -85,7 +86,7 @@ async function Page({params}:{params: {username: string}}) {
 
                 <section className='py-4 grid grid-cols-10 gap-4'>
                     <div className='col-span-6'>
-                        <Feeds />
+                        <Feeds posts={userPosts} />
                     </div>
                     <div className="col-span-4">
                         <div className='bg-white p-4'>

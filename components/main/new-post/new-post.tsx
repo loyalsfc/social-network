@@ -4,6 +4,7 @@ import { newPost } from '@/app/action'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { useAppSelector } from '@/lib/hook'
+import { uploadImage } from '@/lib/utils'
 import { CalendarClock, ImageIcon, Smile, Video, X } from 'lucide-react'
 import Image from 'next/image'
 import React, { ChangeEvent, useState } from 'react'
@@ -18,17 +19,20 @@ function NewPost() {
     const [postContent, setPostContent] = useState<string>("");
     const {user} = useAppSelector(state => state.user)
 
-    const handleImageUpload = (e: ChangeEvent<HTMLInputElement>, mediaType: "image" | "video") => {
+    const handleImageUpload = async(e: ChangeEvent<HTMLInputElement>, mediaType: "image" | "video") => {
         const files = e.target.files;
 
         if(!files) return;
 
         for (let index = 0; index < files?.length; index++) {
+            if (index === 0) console.log(files[0])
             const file = files[index];
-            const url = URL.createObjectURL(file)
+            const data = await uploadImage(file)
+            // const url = URL.createObjectURL(file)
+            if(!data?.secure_url) return;
             setBlobs(prevState => [...prevState, {
                 mediaType,
-                url
+                url: data?.secure_url
             }])
         }
     }

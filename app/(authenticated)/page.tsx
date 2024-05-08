@@ -11,7 +11,7 @@ export default function Home() {
           <NewPost/>
           <StoriesReels />
         </section>
-        <Feeds />
+        <Feeds posts={[]}/>
       </div>
       <Suggestionbar />
     </main>

@@ -125,23 +125,6 @@ export async function fetchUser(username: string){
     }
 }
 
-export async function uploadImage(file: File){
-    try {
-        const formData = new FormData();
-        formData.append("file", file);
-        formData.append("upload_preset", "fledge");
-        const response = await axios.post(
-            `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
-            formData
-        )
-        return response.data
-    } catch (error: any) {
-        return {
-            status: error.response.data
-        }
-    }
-}
-
 export async function changeProfilePicture(image_url: string, path: string, key: string){
     setAuthorization()
     try {
@@ -266,5 +249,16 @@ export async function newPost(body: {}){
         return {
             error: error?.response?.data
         }
+    }
+}
+
+export async function getUserPosts(username: string){
+    try {
+        const response = await instance.get(`/v1/user-posts?username=${username}`)
+        return response.data
+    } catch (error: any) {
+        return{
+            error: error?.response?.data
+        }        
     }
 }
