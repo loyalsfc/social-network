@@ -12,6 +12,7 @@ import { cookies } from 'next/headers'
 import Follow from '@/components/profile/profile-picture/follow'
 import { UserInterface } from '@/@types'
 import Link from 'next/link'
+import Media from '@/components/profile/media/media'
 
 async function name(username: string) {
     return fetchUser(username)
@@ -31,13 +32,16 @@ async function Page({params}:{params: {username: string}}) {
             {!user?.id ? <div className='h-full grid place-content-center'>
                 <NotFound/>
             </div>:<div className='relative'>
-                {isUserPage ? <CoverPicture /> : <div 
-                        className='h-[189px] w-full bg-cover relative group'
-                        style={{backgroundImage: `url('${user?.cover_picture}')`}}
-                    >
-                
-                    </div>
-                }
+                <div className=' bg-gradient-to-l from-secondary/50 to-primary/50'>
+                    {isUserPage ?
+                     <CoverPicture /> : <div 
+                            className='h-[189px] w-full bg-cover relative group'
+                            style={{backgroundImage: `url("${user?.cover_picture}")`}}
+                        >
+                    
+                        </div>
+                    }
+                </div>
                 <div className='px-10 bg-white pb-8'>
                     <div className='flex items-end gap-6'>
                         {isUserPage ? <ProfilePicture /> : <div className='relative border-4 w-32 -mt-12 h-[118px] border-white rounded-md mr-auto group'>
@@ -54,6 +58,7 @@ async function Page({params}:{params: {username: string}}) {
                             <Share2 />
                         </button>
                     </div>
+                    
                     <article className='space-y-2'>
                         {/* <span className="text-secondary">online</span> */}
                         <h1 className='flex gap-4 items-center'>
@@ -90,21 +95,8 @@ async function Page({params}:{params: {username: string}}) {
                     </div>
                     <div className="col-span-4">
                         <div className='bg-white p-4'>
-                            <h4 className='text-dark text-xl font-medium mb-6'>My Media</h4>
-                            <div className='grid grid-cols-2 gap-4'>
-                                {dummyData.map((item, index)=>{
-                                    return (
-                                            <div key={index} className='relative w-full aspect-[157/114]'>
-                                                <Image 
-                                                    src={item.background} 
-                                                    fill 
-                                                    alt='Media' 
-                                                    className='rounded-md'
-                                                />
-                                            </div>
-                                    )
-                                })}
-                            </div>
+                            <h4 className='text-dark text-xl font-medium mb-6'>Media</h4>
+                            <Media post={userPosts} />
                         </div>
                     </div>
                 </section>

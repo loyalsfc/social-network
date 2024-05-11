@@ -1,4 +1,4 @@
-import { Bookmark, Ellipsis, Forward, Heart, MessageSquareIcon, VerifiedIcon } from 'lucide-react'
+import { Bookmark, Ellipsis, Forward, MessageSquareIcon, VerifiedIcon } from 'lucide-react'
 import Image from 'next/image'
 import React from 'react'
 import TimeAgo from 'javascript-time-ago'
@@ -68,7 +68,7 @@ function Card({
             >
                 {caption}
             </p>
-            {media?.length && <CardImages media={media}/>}
+            {media && media?.length > 0 && <CardImages media={media}/>}
             <div className='text-[#1c2022] flex items-center gap-8 pt-4'>
                 <Likes likes={likes} postID={id} likedUsers={likedUsers} />
                 <button className='reaction-btn'>
