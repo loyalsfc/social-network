@@ -7,7 +7,8 @@ import { useAppSelector } from '@/lib/hook'
 import { uploadImage } from '@/lib/utils'
 import { CalendarClock, ImageIcon, Smile, Video, X } from 'lucide-react'
 import Image from 'next/image'
-import React, { ChangeEvent, useState } from 'react'
+import Link from 'next/link'
+import React, { ChangeEvent, createRef, useState } from 'react'
 
 interface Media {
     mediaType: "video" | "image";
@@ -15,6 +16,10 @@ interface Media {
 }
 
 function NewPost() {
+    const [successNotification, setSuccessNotification] = useState({
+        postID: "",
+        isShown: false
+    })
     const [blobs, setBlobs] = useState<Media[]>([]);
     const [postContent, setPostContent] = useState<string>("");
     const {user} = useAppSelector(state => state.user)
@@ -50,7 +55,21 @@ function NewPost() {
             media: blobs
         }
         const post = await newPost(data)
-        console.log(post);
+        if(!post.error){
+            setBlobs([])
+            setPostContent("")
+            setSuccessNotification({
+                postID: post.id,
+                isShown: true
+            })
+            
+            setTimeout(()=>{
+                setSuccessNotification({
+                    postID: '',
+                    isShown: false
+                })
+            },5000)
+        };
     }
 
     return (
@@ -114,6 +133,12 @@ function NewPost() {
                     )
                 })}
             </div>
+
+            {successNotification.isShown && <div className='fixed bottom-10 left-1/2 -translate-x-1/2 rounded py-2 px-4 bg-secondary'>
+                <span className='text-center text-white text-sm font-semibold'>
+                    Post Successful <Link className='hover:underline' href={`/post/${successNotification.postID}`}>See post</Link>
+                </span>
+            </div>}
         </div>
     )
 }
