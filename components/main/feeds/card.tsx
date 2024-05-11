@@ -9,11 +9,13 @@ import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { PostInterface } from '@/@types'
 import CardImages from './card-images'
+import Likes from './reactions/likes'
 
 TimeAgo.addDefaultLocale(en)
 const timeAgo = new TimeAgo('en-US')
 
 interface Props {
+    id: string;
     profilePicture: string;
     fullName: string;
     username: string;
@@ -24,9 +26,11 @@ interface Props {
     comments: number;
     bookmarks: number;
     isVerified: boolean;
+    likedUsers: string;
 }
 
 function Card({
+    id,
     profilePicture,
     fullName,
     username,
@@ -36,7 +40,8 @@ function Card({
     likes,
     comments,
     bookmarks,
-    isVerified
+    isVerified,
+    likedUsers,
 }:Props) {
     return (
         <div className='bg-white p-4'>
@@ -65,17 +70,14 @@ function Card({
             </p>
             {media?.length && <CardImages media={media}/>}
             <div className='text-[#1c2022] flex items-center gap-8 pt-4'>
+                <Likes likes={likes} postID={id} likedUsers={likedUsers} />
                 <button className='reaction-btn'>
-                    <Heart />
-                    <span>{likes}</span>
+                    <MessageSquareIcon className='hover:scale-110 transition-all' />
+                    <span className={cn(comments === 0 ? "invisible" : "visible")}>{comments}</span>
                 </button>
                 <button className='reaction-btn'>
-                    <MessageSquareIcon />
-                    <span>{comments}</span>
-                </button>
-                <button className='reaction-btn'>
-                    <Bookmark />
-                    <span>{bookmarks}</span>
+                    <Bookmark  className='hover:scale-110 transition-all'/>
+                    <span className={cn(bookmarks === 0 ? "invisible" : "visible")}>{bookmarks}</span>
                 </button>
                 <Button variant={"outline"} className='border-[#4E6876] flex items-center gap-2 ml-auto'>
                     <Forward />

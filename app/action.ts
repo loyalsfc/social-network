@@ -115,7 +115,7 @@ export async function signOut(){
 export async function fetchUser(username: string){
     setAuthorization();
     try {
-        const response = await instance.get(`/v1/user?username=${username}`)
+        const response = await instance.get(`/v1/user/${username}`)
         return response.data
     } catch (error: any) {
         console.log(error.response)
@@ -202,7 +202,7 @@ export const followUser = async(followerId: string, followingId: string, path: "
 export const getFollowInfo = async(userId: string) => {
     setAuthorization();
     try {
-        const [followers, following] = await Promise.all([instance.get(`/v1/get-followers?id=${userId}`), instance.get(`/v1/get-following?id=${userId}`)])
+        const [followers, following] = await Promise.all([instance.get(`/v1/get-followers/${userId}`), instance.get(`/v1/get-following/${userId}`)])
         return{
             followers: followers.data, following: following.data
         }
@@ -217,7 +217,7 @@ export const getFollowInfo = async(userId: string) => {
 export const getFollowers = async(userId: string) => {
     setAuthorization();
     try {
-        const response = await instance.get(`/v1/get-followers?id=${userId}`)
+        const response = await instance.get(`/v1/get-followers/${userId}`)
         return response.data
     } catch (error: any) {
         console.log(error.response)
@@ -229,7 +229,7 @@ export const getFollowers = async(userId: string) => {
 
 export const getFollowings = async(userId: string) => {
     try {
-        const response = await instance.get(`/v1/get-following?id=${userId}`)
+        const response = await instance.get(`/v1/get-following/${userId}`)
         return response.data
     } catch (error: any) {
         console.log(error.response)
@@ -253,12 +253,27 @@ export async function newPost(body: {}){
 }
 
 export async function getUserPosts(username: string){
+    setAuthorization();
     try {
-        const response = await instance.get(`/v1/user-posts?username=${username}`)
+        const response = await instance.get(`/v1/user-posts/${username}`)
         return response.data
     } catch (error: any) {
         return{
             error: error?.response?.data
         }        
+    }
+}
+
+export async function likeReaction(postID: string, path: string){
+    setAuthorization();
+    try {
+        const response = await instance.post(`/v1/${path}-post`,{
+            post_id: postID
+        })
+        return response.data
+    } catch (error: any) {
+        return{
+            error: error?.response?.data
+        } 
     }
 }

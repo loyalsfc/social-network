@@ -24,7 +24,12 @@ export interface PostInterface{
     username: string,
     created_at: string,
     updated_at: string,
-    name: string
-    profile_picture: string
-    is_verified: boolean
+    likes_count: int,
+    comments_count: int,
+    bookmarks_count: int,
+    shared_count: int,
+    name: string,
+    profile_picture: string,
+    is_verified: boolean,
+    liked_users: string
 }
