@@ -3,8 +3,8 @@
 import { insertComment } from '@/app/action'
 import ProfilePictureAvatar from '@/components/profile-picture-avatar/profile-picture-avatar'
 import { useAppSelector } from '@/lib/hook'
+import { cn } from '@/lib/utils'
 import { SendHorizonal } from 'lucide-react'
-import Image from 'next/image'
 import React, { Dispatch, SetStateAction, createRef, useEffect, useOptimistic } from 'react'
 import { toast } from 'react-toastify'
 
@@ -15,11 +15,13 @@ type Comment = {
 function CommentBox({
     isShown, 
     postID,
-    setCommentCount
+    setCommentCount,
+    className
 }:{
     isShown: boolean, 
     postID: string,
-    setCommentCount: Dispatch<SetStateAction<number>>
+    setCommentCount: Dispatch<SetStateAction<number>>,
+    className?: string
 }) {
     const {user} = useAppSelector(state => state.user);
     const inputRef = createRef<HTMLInputElement>();
@@ -35,7 +37,7 @@ function CommentBox({
     },[isShown])
     
     return (
-        <>
+        <div className={cn('flex flex-col', className)}>
             <div>
                 {optimisticComments?.map((item, index) => {
                     return(
@@ -44,7 +46,7 @@ function CommentBox({
                                 size={42}
                                 link={user?.profile_picture ?? "/dummy.jpeg"}
                             />
-                            <p>{item.comment}</p>
+                            <p className='opacity-50'>{item.comment}</p>
                         </div> 
                     )
                 })}
@@ -84,7 +86,7 @@ function CommentBox({
                         </button>
                     </div>
                 </form>}
-        </>
+        </div>
     )
 }
 

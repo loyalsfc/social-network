@@ -313,3 +313,27 @@ export async function deleteComment(commentID: string){
         }
     }
 }
+
+export async function  getPost(postID: string){
+    setAuthorization()
+    try {
+        const response = await instance.get(`/v1/post/${postID}`)
+        return response.data
+    } catch (error: any) {
+        return{
+            error: error?.response?.data
+        }
+    }
+}
+
+export async function  getComments(postID: string){
+    setAuthorization()
+    try {
+        const response = await instance.get(`/v1/post-comments/${postID}`)
+        return response.data
+    } catch (error: any) {
+        return{
+            error: error?.response?.data
+        }
+    }
+}

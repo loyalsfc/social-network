@@ -1,3 +1,8 @@
+export type Media = {
+    url: string,
+    mediaType: "image" | "video"
+}
+
 export interface UserInterface {
     id: string,
     name: string,
@@ -17,10 +22,7 @@ export interface PostInterface{
     id: string,
     user_id: string,
     content: string,
-    media: {
-            url: string,
-            mediaType: "image" | "video"
-        }[]
+    media: Media[]
     username: string,
     created_at: string,
     updated_at: string,
@@ -32,4 +34,19 @@ export interface PostInterface{
     profile_picture: string,
     is_verified: boolean,
     liked_users: string
+}
+
+export interface CommentInterface{
+    id: string,
+    comment_text: string,
+    media: Media[],
+    username: string,
+    post_id: string,
+    likes_count: int,
+    reply_count: int,
+    created_at: string,
+    updated_at: string,
+    name: string,
+    profile_picture: string,
+    is_verified: boolean
 }
