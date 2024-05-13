@@ -277,3 +277,39 @@ export async function likeReaction(postID: string, path: string){
         } 
     }
 }
+
+export async function getFeeds(userID: string){
+    setAuthorization();
+    try {
+        const response = await instance.get(`/v1/feeds?id=${userID}`)
+        return response.data
+    } catch (error: any) {
+        return{
+            error: error?.response?.data
+        } 
+    }
+}
+
+export async function insertComment(body: {}){
+    setAuthorization();
+    try {
+        const response = await instance.post(`/v1/new-comment`, body)
+        return response.data
+    } catch (error: any) {
+        return{
+            error: error?.response?.data
+        } 
+    }
+}
+
+export async function deleteComment(commentID: string){
+    setAuthorization()
+    try {
+        const response = await instance.delete(`/v1/comment/${commentID}`)
+        return response.data
+    } catch (error: any) {
+        return{
+            error: error?.response?.data
+        }
+    }
+}

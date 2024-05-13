@@ -1,6 +1,8 @@
+'use client'
+
 import { Bookmark, Ellipsis, Forward, MessageSquareIcon, VerifiedIcon } from 'lucide-react'
 import Image from 'next/image'
-import React from 'react'
+import React, { useState } from 'react'
 import TimeAgo from 'javascript-time-ago'
 
 // English.
@@ -10,6 +12,7 @@ import { cn } from '@/lib/utils'
 import { PostInterface } from '@/@types'
 import CardImages from './card-images'
 import Likes from './reactions/likes'
+import CommentBox from './reactions/comment'
 
 TimeAgo.addDefaultLocale(en)
 const timeAgo = new TimeAgo('en-US')
@@ -43,6 +46,9 @@ function Card({
     isVerified,
     likedUsers,
 }:Props) {
+    const [showCommentBox, setShowCommentBox] = useState(false);
+    const [commentCount, setCommentCount] = useState<number>(comments)
+
     return (
         <div className='bg-white p-4'>
             <div className='flex items-center gap-2 text-[#263B42]'>
@@ -71,9 +77,9 @@ function Card({
             {media && media?.length > 0 && <CardImages media={media}/>}
             <div className='text-[#1c2022] flex items-center gap-8 pt-4'>
                 <Likes likes={likes} postID={id} likedUsers={likedUsers} />
-                <button className='reaction-btn'>
+                <button className='reaction-btn' onClick={()=>setShowCommentBox(true)}>
                     <MessageSquareIcon className='hover:scale-110 transition-all' />
-                    <span className={cn(comments === 0 ? "invisible" : "visible")}>{comments}</span>
+                    <span className={cn(commentCount === 0 ? "invisible" : "visible")}>{commentCount}</span>
                 </button>
                 <button className='reaction-btn'>
                     <Bookmark  className='hover:scale-110 transition-all'/>
@@ -84,6 +90,11 @@ function Card({
                     <span>Share</span>
                 </Button>
             </div>
+            <CommentBox 
+                isShown={showCommentBox} 
+                postID={id}
+                setCommentCount={setCommentCount}
+            />
         </div>
     )
 }
