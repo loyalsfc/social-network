@@ -28,6 +28,7 @@ function Feeds({
                             bookmarks={item.bookmarks_count}
                             isVerified={item.is_verified}
                             likedUsers={item.liked_users}
+                            bookmarkedUsers={item.bookmarked_users}
                         />
                     )
                 })}

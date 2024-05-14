@@ -18,6 +18,7 @@ import CardImages from '../main/feeds/card-images'
 import Likes from '../main/feeds/reactions/likes'
 import { useAppSelector } from '@/lib/hook'
 import CommentBox from '../main/feeds/reactions/comment'
+import Bookmarks from '../main/feeds/reactions/bookmarks'
 
 TimeAgo.addDefaultLocale(en)
 const timeAgo = new TimeAgo('en-US')
@@ -35,7 +36,7 @@ interface Props {
     bookmarks: number;
     isVerified: boolean;
     likedUsers: string;
-    comments: CommentInterface[]
+    bookmarkedUsers: string;
 }
 
 function PostView({
@@ -51,7 +52,7 @@ function PostView({
     bookmarks,
     isVerified,
     likedUsers,
-    comments
+    bookmarkedUsers,
 }:Props) {
     const [commentCount, setCommentCount] = useState<number>(commentsCount)
     // const {user} = useAppSelector(state => state.user)
@@ -86,10 +87,7 @@ function PostView({
                     <MessageSquareIcon className='hover:scale-110 transition-all' />
                     <span className={cn(commentCount === 0 ? "invisible" : "visible")}>{commentCount}</span>
                 </button>
-                <button className='reaction-btn'>
-                    <Bookmark  className='hover:scale-110 transition-all'/>
-                    <span className={cn(bookmarks === 0 ? "invisible" : "visible")}>{bookmarks}</span>
-                </button>
+                <Bookmarks bookmark_count={bookmarks} postID={id} bookmarkedUsers={bookmarkedUsers} />
                 <Button variant={"outline"} className='border-[#4E6876] flex items-center gap-2 ml-auto'>
                     <Forward />
                     <span>Share</span>

@@ -14,6 +14,7 @@ import CardImages from './card-images'
 import Likes from './reactions/likes'
 import CommentBox from './reactions/comment'
 import Link from 'next/link'
+import Bookmarks from './reactions/bookmarks'
 
 TimeAgo.addDefaultLocale(en)
 const timeAgo = new TimeAgo('en-US')
@@ -31,6 +32,7 @@ interface Props {
     bookmarks: number;
     isVerified: boolean;
     likedUsers: string;
+    bookmarkedUsers: string;
 }
 
 function Card({
@@ -46,6 +48,7 @@ function Card({
     bookmarks,
     isVerified,
     likedUsers,
+    bookmarkedUsers,
 }:Props) {
     const [showCommentBox, setShowCommentBox] = useState(false);
     const [commentCount, setCommentCount] = useState<number>(comments)
@@ -83,10 +86,11 @@ function Card({
                     <MessageSquareIcon className='hover:scale-110 transition-all' />
                     <span className={cn(commentCount === 0 ? "invisible" : "visible")}>{commentCount}</span>
                 </button>
-                <button className='reaction-btn'>
-                    <Bookmark  className='hover:scale-110 transition-all'/>
-                    <span className={cn(bookmarks === 0 ? "invisible" : "visible")}>{bookmarks}</span>
-                </button>
+                <Bookmarks
+                    postID={id}
+                    bookmark_count={bookmarks}
+                    bookmarkedUsers={bookmarkedUsers}
+                />
                 <Button variant={"outline"} className='border-[#4E6876] flex items-center gap-2 ml-auto'>
                     <Forward />
                     <span>Share</span>

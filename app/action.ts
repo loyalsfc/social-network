@@ -337,3 +337,17 @@ export async function  getComments(postID: string){
         }
     }
 }
+
+export async function bookmarkPost(postID: string, path: string){
+    setAuthorization();
+    try {
+        const response = await instance.post(`/v1/${path}`,{
+            post_id: postID
+        })
+        return response.data
+    } catch (error: any) {
+        return{
+            error: error?.response?.data
+        } 
+    }
+}

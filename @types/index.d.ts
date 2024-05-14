@@ -33,7 +33,8 @@ export interface PostInterface{
     name: string,
     profile_picture: string,
     is_verified: boolean,
-    liked_users: string
+    liked_users: string,
+    bookmarked_users: string
 }
 
 export interface CommentInterface{

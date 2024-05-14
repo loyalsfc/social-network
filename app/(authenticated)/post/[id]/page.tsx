@@ -23,9 +23,9 @@ async function Page({params}:{params: {id: string}}) {
                     likes={post.likes_count}
                     commentsCount={post.comments_count}
                     likedUsers={post.liked_users}
-                    comments={comments}
                     bookmarks={post.bookmarks_count}
                     isVerified={post.is_verified}
+                    bookmarkedUsers={post.bookmarked_users}
                 />
                 <Comments comments={comments} />
             </div>
