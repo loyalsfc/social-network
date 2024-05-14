@@ -81,7 +81,7 @@ function Sidebar({
                     />
                     <Card
                         Icon={Bookmark}
-                        text='collection'
+                        text='bookmarks'
                         menuCollapsed={isMenuCollapsed}
                     />
                     <Card

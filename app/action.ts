@@ -48,9 +48,7 @@ export default async function createUser(prevState: any, formData: FormData){
 
     const {name, email, password} = validatedFields.data
 
-    const formBody = {
-        name, email, password, username: "usersss"
-    }
+    const formBody = {name, email, password}
 
     try {
         const response = await instance.post("/v1/user", formBody)
@@ -344,6 +342,18 @@ export async function bookmarkPost(postID: string, path: string){
         const response = await instance.post(`/v1/${path}`,{
             post_id: postID
         })
+        return response.data
+    } catch (error: any) {
+        return{
+            error: error?.response?.data
+        } 
+    }
+}
+
+export async function getBookmarks(){
+    setAuthorization();
+    try {
+        const response = await instance.get(`/v1/bookmarks`)
         return response.data
     } catch (error: any) {
         return{

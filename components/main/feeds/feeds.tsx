@@ -4,13 +4,15 @@ import { PostInterface } from '@/@types'
 import { Lock } from 'lucide-react'
 
 function Feeds({
-    posts
+    posts,
+    emptyText,
 }:{
-    posts: PostInterface[]
+    posts: PostInterface[],
+    emptyText?: string
 }) {
     
     return (
-        <div>
+        <>
             {posts.length ? <div className='space-y-4'>
                 {posts.map(item => {
                     return(
@@ -33,9 +35,9 @@ function Feeds({
                     )
                 })}
             </div> : <div className='bg-white py-10 font-semibold text-xl text-center'>
-                <span>No Post Yet</span>    
+                <span>{emptyText ?? "No Post Yet"}</span>    
             </div>}
-        </div>
+        </>
     )
 }
 
