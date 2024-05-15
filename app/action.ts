@@ -361,3 +361,27 @@ export async function getBookmarks(){
         } 
     }
 }
+
+export async function endpointGetRequests(path: string){
+    setAuthorization();
+    try {
+        const response = await instance.get(`/v1${path}`)
+        return response.data
+    } catch (error: any) {
+        return{
+            error: error?.response?.data
+        } 
+    }
+}
+
+export async function endpointPostRequests(path: string, body: {}){
+    setAuthorization();
+    try {
+        const response = await instance.post(`/v1${path}`, body)
+        return response.data
+    } catch (error: any) {
+        return{
+            error: error?.response?.data
+        } 
+    }
+}

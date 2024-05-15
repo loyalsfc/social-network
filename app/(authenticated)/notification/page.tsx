@@ -1,36 +1,11 @@
 import Suggestionbar from "@/components/suggestionbar/suggestionbar";
 import { Settings } from "lucide-react";
-import dummyData from "@/data/dummy-data";
 import Card from "@/components/notifications/card";
+import { endpointGetRequests } from "@/app/action";
+import { NotificationInterface } from "@/@types";
 
-const notifications = [
-    {
-        user: dummyData[0],
-        notification: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text"
-    },
-    {
-        user: dummyData[0],
-        notification: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text"
-    },
-    {
-        user: dummyData[0],
-        notification: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text"
-    },
-    {
-        user: dummyData[0],
-        notification: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text"
-    },
-    {
-        user: dummyData[0],
-        notification: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text"
-    },
-    {
-        user: dummyData[0],
-        notification: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text"
-    },
-] 
-
-export default function Home() {
+export default async function Page() {
+    const notifications:NotificationInterface[] = await endpointGetRequests("/notifications")
   return (
     <main className="flex-1 h-full flex">
         <div className="px-4 h-full overflow-y-scroll flex-1">
@@ -41,16 +16,18 @@ export default function Home() {
                 </button>
             </div>
             <div className="space-y-2">
-                {notifications.map((item, index) => {
-                    const {profileImage, name, username, isVerified} = item.user
+                {notifications.map(item => {
                     return <Card
-                        key={index}
-                        image={profileImage}
-                        fullName={name}
-                        isVerified={isVerified}
-                        username={username}
-                        date={new Date("03-12-2024")}
-                        notificationText={item.notification}
+                        key={item.id}
+                        image={item.profile_picture}
+                        fullName={item.name}
+                        isVerified={item.is_verified}
+                        username={item.username}
+                        date={new Date(item.created_at)}
+                        notificationText={item.content}
+                        isRead={item.is_viewed}
+                        reference={item.reference}
+                        type={item.notification_source}
                     />
                 })}
             </div>

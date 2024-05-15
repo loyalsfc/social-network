@@ -1,5 +1,4 @@
 import React from 'react'
-import dummyData from '@/data/dummy-data'
 import Image from 'next/image'
 import { Share2 } from 'lucide-react'
 import Feeds from '@/components/main/feeds/feeds'
@@ -26,6 +25,8 @@ async function Page({params}:{params: {username: string}}) {
     
     //Check if the profile page is the user's page
     const isUserPage = defaultUser.username === params.username;
+
+    console.log("Aye aye")
 
     return (
         <main className='w-full px-4 overflow-y-scroll h-full'>

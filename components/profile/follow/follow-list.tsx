@@ -34,12 +34,12 @@ function FollowList({
                                 <div className='mr-auto'>
                                     <Link 
                                         href={`/${item.username}`} 
-                                        className='font-medium leading-none hover:underline block'
+                                        className='font-medium leading-none hover:underline flex items-start gap-1'
                                     >
                                         {item.name} 
                                         {item.is_verified && <VerifiedIcon size={20} color='#40D89D' />}
                                     </Link>
-                                    <span className='text-grey-500'>@{item.username}</span>
+                                    <span className='text-gray-500'>@{item.username}</span>
                                 </div>
                                 {user?.id !== item.id && <Follow userToFollowId={item.id} />}
                             </div>

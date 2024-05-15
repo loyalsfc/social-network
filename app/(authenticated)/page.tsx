@@ -9,6 +9,8 @@ export default async function Home() {
   const user = cookies().get("user-details")?.value;
   const userObj = JSON.parse(user ?? "")
   const feeds = await getFeeds(userObj?.id)
+
+  console.log(feeds)
   
   return (
     <main className="flex-1 h-full flex overflow-x-hidden">

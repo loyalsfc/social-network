@@ -51,3 +51,16 @@ export interface CommentInterface{
     profile_picture: string,
     is_verified: boolean
 }
+
+export interface NotificationInterface{
+    id: string,
+    username: string,
+    content: string,
+    created_at: string,
+    is_viewed: boolean,
+    notification_source: "likes" | "comments" | "follow",
+    reference: string,
+    name: string,
+    profile_picture: string,
+    is_verified: boolean
+}
