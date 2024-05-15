@@ -385,3 +385,15 @@ export async function endpointPostRequests(path: string, body: {}){
         } 
     }
 }
+
+export async function endpointUpdateRequests(path: string, body: {}){
+    setAuthorization();
+    try {
+        const response = await instance.put(`/v1${path}`, body)
+        return response.data
+    } catch (error: any) {
+        return{
+            error: error?.response?.data
+        } 
+    }
+}

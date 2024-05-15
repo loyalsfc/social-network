@@ -15,7 +15,7 @@ export default async function Page() {
                     <Settings size={24} />
                 </button>
             </div>
-            <div className="space-y-2">
+            {notifications.length ? <div className="space-y-2">
                 {notifications.map(item => {
                     return <Card
                         key={item.id}
@@ -30,7 +30,7 @@ export default async function Page() {
                         type={item.notification_source}
                     />
                 })}
-            </div>
+            </div> : <div className="py-10 text-2xl font-semibold text-center bg-white">Your notification is empty</div>}
         </div>
         <Suggestionbar />
     </main>

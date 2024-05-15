@@ -33,7 +33,6 @@ function Card({
     reference,
     type
 }:Props) {
-
     function notificationContent(content: string){
         let wordSplit = content.split(" ");
         const username = wordSplit.shift()

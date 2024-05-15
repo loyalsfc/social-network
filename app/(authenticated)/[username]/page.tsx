@@ -26,8 +26,6 @@ async function Page({params}:{params: {username: string}}) {
     //Check if the profile page is the user's page
     const isUserPage = defaultUser.username === params.username;
 
-    console.log("Aye aye")
-
     return (
         <main className='w-full px-4 overflow-y-scroll h-full'>
             {!user?.id ? <div className='h-full grid place-content-center'>
