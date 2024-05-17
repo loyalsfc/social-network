@@ -1,20 +1,16 @@
-'use client'
-
-import { Bookmark, Ellipsis, Forward, MessageSquareIcon, VerifiedIcon } from 'lucide-react'
+import { Ellipsis, VerifiedIcon } from 'lucide-react'
 import Image from 'next/image'
-import React, { useState } from 'react'
+import React from 'react'
 import TimeAgo from 'javascript-time-ago'
 
 // English.
 import en from 'javascript-time-ago/locale/en'
-import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { PostInterface } from '@/@types'
 import CardImages from './card-images'
-import Likes from './reactions/likes'
-import CommentBox from './reactions/comment'
 import Link from 'next/link'
-import Bookmarks from './reactions/bookmarks'
+import ReactionsWrapper from './reactions/reactions-wrapper'
+import { ProfileHoverCard } from '@/components/hover-card/profile-hovercard'
 
 TimeAgo.addDefaultLocale(en)
 const timeAgo = new TimeAgo('en-US')
@@ -50,8 +46,7 @@ function Card({
     likedUsers,
     bookmarkedUsers,
 }:Props) {
-    const [showCommentBox, setShowCommentBox] = useState(false);
-    const [commentCount, setCommentCount] = useState<number>(comments)
+
 
     return (
         <div className='block bg-white p-4'>
@@ -64,9 +59,16 @@ function Card({
                         className='object-cover object-top'
                     />
                 </div>
-                <h4 className='font-medium text-lg text-[#06090C]'>{fullName}</h4>
+                <ProfileHoverCard
+                    hoverText={fullName} 
+                    textClassName='font-medium text-lg text-[#06090C]'
+                    username={username} 
+                />
                 {isVerified && <VerifiedIcon size={20} color='#40D89D' />}
-                <span>@{username}</span>
+                <ProfileHoverCard 
+                    textClassName='text-[#263B42]'
+                    username={"@"+username} 
+                />
                 -
                 <span>{timeAgo.format(date)}</span>
                 <button className="ml-auto">
@@ -80,26 +82,13 @@ function Card({
                 {caption}
             </Link>
             {media && media?.length > 0 && <CardImages media={media}/>}
-            <div className='text-[#1c2022] flex items-center gap-8 pt-4'>
-                <Likes likes={likes} postID={id} likedUsers={likedUsers} />
-                <button className='reaction-btn' onClick={()=>setShowCommentBox(true)}>
-                    <MessageSquareIcon className='hover:scale-110 transition-all' />
-                    <span className={cn(commentCount === 0 ? "invisible" : "visible")}>{commentCount}</span>
-                </button>
-                <Bookmarks
-                    postID={id}
-                    bookmark_count={bookmarks}
-                    bookmarkedUsers={bookmarkedUsers}
-                />
-                <Button variant={"outline"} className='border-[#4E6876] flex items-center gap-2 ml-auto'>
-                    <Forward />
-                    <span>Share</span>
-                </Button>
-            </div>
-            <CommentBox 
-                isShown={showCommentBox} 
-                postID={id}
-                setCommentCount={setCommentCount}
+            <ReactionsWrapper
+                id={id}
+                likes={likes}
+                comments={comments}
+                bookmarks={bookmarks}
+                likedUsers={likedUsers}
+                bookmarkedUsers={bookmarkedUsers}
             />
         </div>
     )

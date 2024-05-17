@@ -6,6 +6,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 import { Button } from '../ui/button'
+import { ProfileHoverCard } from '../hover-card/profile-hovercard'
 
 interface Props {
     image: string
@@ -38,7 +39,10 @@ function Card({
         const username = wordSplit.shift()
         return(
             <p className='gap-1'>
-                <span className='hover:underline text-secondary pr-1'>{username}</span>
+                <ProfileHoverCard 
+                    textClassName='hover:underline text-secondary pr-1'
+                    username={username ?? ""} 
+                />
                 <span>{wordSplit.join(" ")}</span>
             </p>
         )
@@ -64,19 +68,26 @@ function Card({
             </div>
             <article className='flex-1'>
                 <div className='flex gap-2 items-center mb-2'>
-                    <h4 className='font-medium text-lg text-[#06090C]'>{fullName}</h4>
+                    <ProfileHoverCard 
+                        hoverText={fullName} 
+                        textClassName='font-medium text-lg text-[#06090C]'
+                        username={username} 
+                    />
                     {isVerified && <VerifiedIcon size={20} color='#40D89D' />}
-                    <span className='text-[#263B42]'>@{username}</span>
+                    <ProfileHoverCard 
+                        textClassName='text-[#263B42]'
+                        username={"@"+username} 
+                    />
                     -
                     <span>{timeAgo.format(date, "mini")}</span>
                     {!isRead && <div className='h-4 w-4 rounded-full bg-blue-400 ml-auto' />}
                 </div>
                 {(type === "likes" || type === "comments") ? <Link href={`/post/${reference}`}>
                     <div className='font-thin'>{notificationContent(notificationText)}</div>
-                </Link> : <Link href={`/$${reference}`}>
+                </Link> : <div>
                     <div className='font-thin mb-1'>{notificationContent(notificationText)}</div>
                     <Button className='bg-secondary'>Follow Back</Button>
-                </Link>}
+                </div>}
             </article>
         </div>
     )

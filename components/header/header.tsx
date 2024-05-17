@@ -9,7 +9,6 @@ import { endpointGetRequests } from '@/app/action'
 
 async function Header() {
     const notifications:NotificationInterface[] = await endpointGetRequests("/notifications");
-
     return (
         <header className='bg-white py-2.5'>
             <div className='max-w-7xl mx-auto flex items-center justify-between gap-3'>
