@@ -16,37 +16,22 @@ TimeAgo.addDefaultLocale(en)
 const timeAgo = new TimeAgo('en-US')
 
 interface Props {
-    id: string;
-    profilePicture: string;
-    fullName: string;
-    username: string;
-    date: Date;
-    caption: string;
-    media?: PostInterface["media"];
-    likes: number;
-    comments: number;
-    bookmarks: number;
-    isVerified: boolean;
-    likedUsers: string;
-    bookmarkedUsers: string;
+    post: PostInterface
 }
 
 function Card({
-    id,
-    profilePicture,
-    fullName,
-    username,
-    date,
-    caption,
-    media,
-    likes,
-    comments,
-    bookmarks,
-    isVerified,
-    likedUsers,
-    bookmarkedUsers,
+    post
 }:Props) {
-
+    const {
+        id,
+        profile_picture: profilePicture,
+        name,
+        username,
+        created_at: date,
+        content: caption,
+        media,
+        is_verified: isVerified,
+    } = post
 
     return (
         <div className='block bg-white p-4'>
@@ -60,7 +45,7 @@ function Card({
                     />
                 </div>
                 <ProfileHoverCard
-                    hoverText={fullName} 
+                    hoverText={name} 
                     textClassName='font-medium text-lg text-[#06090C]'
                     username={username} 
                 />
@@ -70,7 +55,7 @@ function Card({
                     username={"@"+username} 
                 />
                 -
-                <span>{timeAgo.format(date)}</span>
+                <span>{timeAgo.format(new Date(date))}</span>
                 <button className="ml-auto">
                     <Ellipsis />
                 </button>
@@ -82,14 +67,7 @@ function Card({
                 {caption}
             </Link>
             {media && media?.length > 0 && <CardImages media={media}/>}
-            <ReactionsWrapper
-                id={id}
-                likes={likes}
-                comments={comments}
-                bookmarks={bookmarks}
-                likedUsers={likedUsers}
-                bookmarkedUsers={bookmarkedUsers}
-            />
+            <ReactionsWrapper post={post}/>
         </div>
     )
 }

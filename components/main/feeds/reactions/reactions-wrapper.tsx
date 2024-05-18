@@ -7,24 +7,24 @@ import { Forward, MessageSquareIcon } from 'lucide-react'
 import Bookmarks from './bookmarks'
 import { cn } from '@/lib/utils'
 import Likes from './likes'
+import SharePost from './share'
+import { PostInterface } from '@/@types'
 
 interface Props{
-    id: string;
-    likes: number;
-    comments: number;
-    bookmarks: number;
-    likedUsers: string;
-    bookmarkedUsers: string;
+    post: PostInterface
 }
 
 function ReactionsWrapper({
-    id,
-    likes,
-    comments,
-    bookmarks,
-    likedUsers,
-    bookmarkedUsers,
+    post
 }:Props) {
+    const {
+        id,
+        likes_count: likes,
+        comments_count: comments,
+        bookmarks_count: bookmarks,
+        liked_users: likedUsers,
+        bookmarked_users: bookmarkedUsers,
+    } = post
     const [showCommentBox, setShowCommentBox] = useState(false);
     const [commentCount, setCommentCount] = useState<number>(comments)
     return (
@@ -40,10 +40,11 @@ function ReactionsWrapper({
                     bookmark_count={bookmarks}
                     bookmarkedUsers={bookmarkedUsers}
                 />
-                <Button variant={"outline"} className='border-[#4E6876] flex items-center gap-2 ml-auto'>
+                {/* <Button variant={"outline"} className='border-[#4E6876] flex items-center gap-2 ml-auto'>
                     <Forward />
                     <span>Share</span>
-                </Button>
+                </Button> */}
+                <SharePost post={post} />
             </div>
             <CommentBox
                 isShown={showCommentBox} 

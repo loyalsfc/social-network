@@ -22,7 +22,6 @@ export async function ProfileHoverCard({
 }) {
     const user: UserInterface = await endpointGetRequests(`/user/${username.replace("@", "")}`)
     const followInfo = await getFollowInfo(user.id);
-    console.log(user)
     return (
         <HoverCard>
             <HoverCardTrigger asChild>

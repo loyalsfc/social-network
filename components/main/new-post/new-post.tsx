@@ -4,7 +4,7 @@ import { newPost } from '@/app/action'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { useAppSelector } from '@/lib/hook'
-import { uploadImage } from '@/lib/utils'
+import { handleImageUpload, uploadImage } from '@/lib/utils'
 import { CalendarClock, ImageIcon, Smile, Video, X } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -24,23 +24,23 @@ function NewPost() {
     const [postContent, setPostContent] = useState<string>("");
     const {user} = useAppSelector(state => state.user)
 
-    const handleImageUpload = async(e: ChangeEvent<HTMLInputElement>, mediaType: "image" | "video") => {
-        const files = e.target.files;
+    // const handleImageUpload = async(e: ChangeEvent<HTMLInputElement>, mediaType: "image" | "video") => {
+    //     const files = e.target.files;
 
-        if(!files) return;
+    //     if(!files) return;
 
-        for (let index = 0; index < files?.length; index++) {
-            if (index === 0) console.log(files[0])
-            const file = files[index];
-            const data = await uploadImage(file)
-            // const url = URL.createObjectURL(file)
-            if(!data?.secure_url) return;
-            setBlobs(prevState => [...prevState, {
-                mediaType,
-                url: data?.secure_url
-            }])
-        }
-    }
+    //     for (let index = 0; index < files?.length; index++) {
+    //         if (index === 0) console.log(files[0])
+    //         const file = files[index];
+    //         const data = await uploadImage(file)
+    //         // const url = URL.createObjectURL(file)
+    //         if(!data?.secure_url) return;
+    //         setBlobs(prevState => [...prevState, {
+    //             mediaType,
+    //             url: data?.secure_url
+    //         }])
+    //     }
+    // }
 
     const removeMedia = (url: string) => {
         setBlobs(prevState => {
@@ -88,13 +88,13 @@ function NewPost() {
                         <label htmlFor='upload-image' className='text-black/60 hover:scale-105 transition-all'>
                             <ImageIcon/>
                         </label>
-                        <input onChange={(e)=>handleImageUpload(e, "image")} type="file" name="upload-image" id="upload-image" hidden accept='image/*' multiple/>
+                        <input onChange={(e)=>handleImageUpload(e, "video", setBlobs)} type="file" name="upload-image" id="upload-image" hidden accept='image/*' multiple/>
                     </div>
                     <div>
                         <label htmlFor='upload-video' className='text-black/60 hover:scale-105 transition-all'>
                             <Video/>
                         </label>
-                        <input onChange={(e)=>handleImageUpload(e, "video")} type="file" name="upload-video" id="upload-video" hidden accept='video/*' multiple/>
+                        <input onChange={(e)=>handleImageUpload(e, "video", setBlobs)} type="file" name="upload-video" id="upload-video" hidden accept='video/*' multiple/>
                     </div>
                     <button className='text-black/60 hover:scale-105 transition-all'>
                         <Smile/>
