@@ -1,7 +1,7 @@
 import { CommentInterface } from '@/@types'
 import React from 'react'
 import ProfilePictureAvatar from '../profile-picture-avatar/profile-picture-avatar'
-import CardImages from '../main/feeds/card-images'
+import CardImages from '../main/feeds/post-cards/card-images'
 
 import TimeAgo from 'javascript-time-ago'
 import en from 'javascript-time-ago/locale/en'

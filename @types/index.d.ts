@@ -34,7 +34,9 @@ export interface PostInterface{
     profile_picture: string,
     is_verified: boolean,
     liked_users: string,
-    bookmarked_users: string
+    bookmarked_users: string,
+    is_shared: boolean,
+    shared_post_id: string,
 }
 
 export interface CommentInterface{

@@ -9,7 +9,7 @@ function CardImages({
     media: PostInterface["media"];
 }) {
     return (
-        <div className={cn('h-full overflow-hidden grid  gap-1', media.length === 1 ? "grid-cols-1 aspect-[3/4]" : media.length === 2 ? "grid-cols-2 h-80" : "grid-cols-3 h-80")}>
+        <div className={cn('h-full overflow-hidden grid gap-1', media.length === 1 ? "grid-cols-1 aspect-[3/4]" : media.length === 2 ? "grid-cols-2 h-80" : "grid-cols-3 h-80")}>
            
             {media?.map((item, index)=>{
                 if(index > 2) return;
