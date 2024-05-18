@@ -2,8 +2,12 @@ import { cn } from '@/lib/utils';
 import { EllipsisVertical } from 'lucide-react';
 import Image from 'next/image';
 import React from 'react'
+import Follow from '../profile/profile-picture/follow';
+import ProfilePictureAvatar from '../profile-picture-avatar/profile-picture-avatar';
+import Link from 'next/link';
 
 interface Props {
+    id: string;
     background: string;
     profileImage: string;
     name: string;
@@ -11,6 +15,7 @@ interface Props {
 }
 
 function Card({
+    id,
     background,
     profileImage,
     name,
@@ -22,18 +27,12 @@ function Card({
             style={{backgroundImage: `url('${background}')`}}
         >
             <div className="h-full w-full absolute top-0 left-0 bg-black/70 -z-10" />
-            <button className='absolute right-2 top-4 text-white'>
-                <EllipsisVertical size={14}/>
-            </button>
-            <div className='h-9 w-9 rounded-full overflow-hidden border-2 border-white relative mb-2'>
-                <Image
-                    src={profileImage}
-                    fill
-                    alt='Profile Image'
-                    className='object-cover object-top'
-                />
+            
+            <div className='flex items-center justify-between mb-2'>
+                <ProfilePictureAvatar link={profileImage} size={40}/>
+                <Follow userToFollowId={id} />    
             </div>
-            <h4 className='text-lg font-semibold leading-none mb-1.5'>{name}</h4>
+            <Link href={`/${username}`} className='text-lg font-semibold leading-none mb-1.5 block hover:underline'>{name}</Link>
             <p className=' font-thin leading-none'>@{username}</p>
         </li>
     )
