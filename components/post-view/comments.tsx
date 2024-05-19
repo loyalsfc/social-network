@@ -8,6 +8,7 @@ import en from 'javascript-time-ago/locale/en'
 import { HeartSolid } from '../main/feeds/reactions/likes'
 import { ProfileHoverCard } from '../hover-card/profile-hovercard'
 import { VerifiedIcon } from 'lucide-react'
+import DropMenu from './comment-reaction/comment-menu/comment-menu'
 
 TimeAgo.addDefaultLocale(en)
 
@@ -23,34 +24,39 @@ function Comments({
             {comments.map(item => {
                 return(
                     <div className='flex gap-2 pb-4'>
-                        <div></div>
                         <ProfilePictureAvatar 
                             size={32}
                             link={item.profile_picture}
                         />
-
-                        <div className='w-fit'>
-                            <div className='py-2 px-3 rounded-3xl bg-grey-100/10 text-[15px]'>
-                                <div className='flex items-center gap-1.5'>
-                                    <ProfileHoverCard
-                                        hoverText={item.name} 
-                                        textClassName='font-medium text-[#06090C]'
-                                        username={item.username} 
-                                    />
-                                    {item.is_verified && <VerifiedIcon size={20} color='#40D89D' />}
-                                    <ProfileHoverCard 
-                                        textClassName='text-[#263B42] text-sm'
-                                        username={"@"+item.username} 
-                                    />
+                        <div className='flex group'>
+                            <div className='w-fit'>
+                                <div className='py-2 px-3 rounded-3xl bg-grey-100/10 text-[15px]'>
+                                    <div className='flex items-center gap-1.5'>
+                                        <ProfileHoverCard
+                                            hoverText={item.name} 
+                                            textClassName='font-medium text-[#06090C]'
+                                            username={item.username} 
+                                        />
+                                        {item.is_verified && <VerifiedIcon size={20} color='#40D89D' />}
+                                        <ProfileHoverCard 
+                                            textClassName='text-[#263B42] text-sm'
+                                            username={"@"+item.username} 
+                                        />
+                                    </div>
+                                    <p>{item.comment_text}</p>
                                 </div>
-                                <p>{item.comment_text}</p>
+                                {item.media.length > 0 && <CardImages media={item.media} />}
+                                <div className='flex gap-2 text-grey-500 items-center'>
+                                    <span className='text-xs'>{timeAgo.format(new Date(item.created_at), "mini-now")}</span>
+                                    <button className='text-sm font-medium hover:scale-105 transition-all'>Like</button>
+                                    <button className='text-sm font-medium hover:scale-105 transition-all'>Reply</button>
+                                    {item.likes_count !== 0 && <HeartSolid />}
+                                </div>
                             </div>
-                            {item.media.length > 0 && <CardImages media={item.media} />}
-                            <div className='flex gap-2 text-grey-500 items-center'>
-                                <span className='text-xs'>{timeAgo.format(new Date(item.created_at), "mini-now")}</span>
-                                <button className='text-sm font-medium hover:scale-105 transition-all'>Like</button>
-                                <button className='text-sm font-medium hover:scale-105 transition-all'>Reply</button>
-                                {item.likes_count !== 0 && <HeartSolid />}
+                            <div className='pt-4 pl-2 invisible group-hover:visible'>
+                                <div className="h-7 w-7 rounded-full grid place-content-center hover:bg-gray-600/20">
+                                    <DropMenu username={item.username} commentId={item.id} />
+                                </div>
                             </div>
                         </div>
                     </div>

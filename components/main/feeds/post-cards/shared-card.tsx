@@ -18,6 +18,7 @@ async function SharedCard({
     return (
         <div className='block bg-white p-4'>
             <PostHeader
+                postId={post.id}
                 name={post.name}
                 username={post.username}
                 profilePicture={post.profile_picture}
@@ -34,6 +35,7 @@ async function SharedCard({
             </Link>
             <div className='p-2 mt-4 rounded-2xl border border-grey'>
                 <PostHeader
+                    postId={sharedPost.id}
                     name={sharedPost.name}
                     username={sharedPost.username}
                     profilePicture={sharedPost.profile_picture}
@@ -51,7 +53,7 @@ async function SharedCard({
                 {sharedPost.media && sharedPost.media?.length > 0 && <CardImages media={sharedPost.media}/>}
             </div>
             {post.media && post.media?.length > 0 && <CardImages media={post.media}/>}
-            <ReactionsWrapper post={post}/>
+            <ReactionsWrapper fixedCommentBox={false} post={post}/>
         </div>
     )
 }

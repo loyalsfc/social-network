@@ -11,11 +11,15 @@ import SharePost from './share'
 import { PostInterface } from '@/@types'
 
 interface Props{
-    post: PostInterface
+    post: PostInterface;
+    fixedCommentBox: boolean;
+    className?: string
 }
 
 function ReactionsWrapper({
-    post
+    post,
+    fixedCommentBox,
+    className
 }:Props) {
     const {
         id,
@@ -25,12 +29,12 @@ function ReactionsWrapper({
         shared_count: shared,
         liked_users: likedUsers,
         bookmarked_users: bookmarkedUsers,
-    } = post
+    } = post;
     const [showCommentBox, setShowCommentBox] = useState(false);
-    const [commentCount, setCommentCount] = useState<number>(comments)
+    const [commentCount, setCommentCount] = useState<number>(comments);
     return (
         <>
-            <div className='text-[#1c2022] flex items-center gap-6 pt-4'>
+            <div className={cn('text-[#1c2022] flex items-center gap-6 pt-4', className)}>
                 <Likes likes={likes} postID={id} likedUsers={likedUsers} />
                 <button className='reaction-btn' onClick={()=>setShowCommentBox(true)}>
                     <MessageSquareIcon className='hover:scale-110 transition-all' />
@@ -45,7 +49,8 @@ function ReactionsWrapper({
                 <span className='text-left'>{shared > 0 ? shared : ""}</span>
             </div>
             <CommentBox
-                isShown={showCommentBox} 
+                fixedCommentBox={fixedCommentBox}
+                isShown={showCommentBox || fixedCommentBox} 
                 postID={id}
                 setCommentCount={setCommentCount}
             />  

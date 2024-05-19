@@ -12,21 +12,7 @@ async function Page({params}:{params: {id: string}}) {
     return (
         <main className="flex-1 h-full flex overflow-x-hidden">
             <div className="px-4 lg:px-10 h-full overflow-y-scroll flex-1">
-                <PostView
-                    id={post.id}
-                    profilePicture={post.profile_picture}
-                    fullName={post.name}
-                    username={post.username}
-                    date={new Date(post.created_at)}
-                    caption={post.content}
-                    media={post.media}
-                    likes={post.likes_count}
-                    commentsCount={post.comments_count}
-                    likedUsers={post.liked_users}
-                    bookmarks={post.bookmarks_count}
-                    isVerified={post.is_verified}
-                    bookmarkedUsers={post.bookmarked_users}
-                />
+                <PostView post={post} />
                 <Comments comments={comments} />
             </div>
             <Suggestionbar />

@@ -6,22 +6,25 @@ import { ProfileHoverCard } from '@/components/hover-card/profile-hovercard'
 import ProfilePictureAvatar from '@/components/profile-picture-avatar/profile-picture-avatar'
 import { Ellipsis, VerifiedIcon } from 'lucide-react'
 import React from 'react'
+import DropMenu from './drop-menu'
 
 
 TimeAgo.addDefaultLocale(en)
 const timeAgo = new TimeAgo('en-US')
 
 interface Props{
+    postId: string;
     name:string,
     username:string,
     profilePicture:string,
     isVerified:boolean,
-    date:string,
+    date?:string,
     avatarSize:number,
     showMenu:boolean
 }
 
 function PostHeader({
+    postId,
     name,
     username,
     profilePicture,
@@ -44,10 +47,10 @@ function PostHeader({
                 username={"@"+username} 
             />
             -
-            <span>{timeAgo.format(new Date(date), "twitter")}</span>
-            {showMenu && <button className="ml-auto">
-                <Ellipsis />
-            </button>}
+            {date && <span>{timeAgo.format(new Date(date), "twitter")}</span>}
+            {showMenu && <div className="ml-auto h-7 w-7 rounded-full grid place-content-center hover:bg-gray-600/20">
+                <DropMenu username={username} postId={postId} />
+            </div>}
         </div>
     )
 }

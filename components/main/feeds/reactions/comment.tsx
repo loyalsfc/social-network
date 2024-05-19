@@ -16,12 +16,14 @@ function CommentBox({
     isShown, 
     postID,
     setCommentCount,
-    className
+    className,
+    fixedCommentBox
 }:{
     isShown: boolean, 
     postID: string,
     setCommentCount: Dispatch<SetStateAction<number>>,
     className?: string
+    fixedCommentBox: boolean
 }) {
     const {user} = useAppSelector(state => state.user);
     const inputRef = createRef<HTMLInputElement>();
@@ -31,7 +33,7 @@ function CommentBox({
     >([], (state, newComment) => [...state, { comment: newComment}])
 
     useEffect(()=>{
-        if(isShown){
+        if(isShown && !fixedCommentBox){
             inputRef.current?.focus();
         }
     },[isShown])

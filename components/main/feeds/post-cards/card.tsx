@@ -16,6 +16,7 @@ function Card({
     return (
         <div className='block bg-white p-4'>
             <PostHeader
+                postId={post.id}
                 name={post.name}
                 username={post.username}
                 profilePicture={post.profile_picture}
@@ -31,7 +32,7 @@ function Card({
                 {post.content}
             </Link>
             {post.media && post.media?.length > 0 && <CardImages media={post.media}/>}
-            <ReactionsWrapper post={post}/>
+            <ReactionsWrapper fixedCommentBox={false} post={post}/>
         </div>
     )
 }
