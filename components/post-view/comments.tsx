@@ -9,6 +9,8 @@ import { HeartSolid } from '../main/feeds/reactions/likes'
 import { ProfileHoverCard } from '../hover-card/profile-hovercard'
 import { VerifiedIcon } from 'lucide-react'
 import DropMenu from './comment-reaction/comment-menu/comment-menu'
+import PostCommentDelete from './modals/post-comment-delete'
+import CommentPopBtn from './comment-reaction/comment-menu/comment-pop-btn'
 
 TimeAgo.addDefaultLocale(en)
 
@@ -19,6 +21,7 @@ function Comments({
 }:{
     comments: CommentInterface[]
 }) {
+
     return (
         <div className='bg-white px-4'>
             {comments.map(item => {
@@ -53,10 +56,8 @@ function Comments({
                                     {item.likes_count !== 0 && <HeartSolid />}
                                 </div>
                             </div>
-                            <div className='pt-4 pl-2 invisible group-hover:visible'>
-                                <div className="h-7 w-7 rounded-full grid place-content-center hover:bg-gray-600/20">
-                                    <DropMenu username={item.username} commentId={item.id} />
-                                </div>
+                            <div className='pt-4 pl-2  group-hover:visible'>
+                                <CommentPopBtn id={item.id} username={item.username} />
                             </div>
                         </div>
                     </div>

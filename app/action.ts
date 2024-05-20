@@ -397,3 +397,15 @@ export async function endpointUpdateRequests(path: string, body: {}){
         } 
     }
 }
+
+export async function endpointDeleteRequests(path: string){
+    setAuthorization();
+    try {
+        const response = await instance.delete(`/v1${path}`)
+        return response.data
+    } catch (error: any) {
+        return{
+            error: error?.response?.data
+        } 
+    }
+}

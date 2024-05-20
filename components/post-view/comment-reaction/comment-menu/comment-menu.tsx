@@ -4,20 +4,26 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSepara
 import { useAppSelector } from '@/lib/hook';
 import { Edit2Icon, Ellipsis, Flag, Trash2, UserPlus2, UserRoundX } from 'lucide-react'
 import React from 'react'
+import PostCommentDelete from '../../modals/post-comment-delete';
 
 function DropMenu({
     username,
-    commentId
+    commentId,
+    openDelete
 }:{
     username:string;
     commentId:string;
+    openDelete: ()=>void; 
 }) {
     const {user} =useAppSelector(state => state.user);
     return (
         <DropdownMenu>
             <DropdownMenuTrigger><Ellipsis /></DropdownMenuTrigger>
             {username === user?.username ? <DropdownMenuContent>
-                <DropdownMenuItem className='flex gap-2 items-center font-medium text-red-500'>
+                <DropdownMenuItem 
+                    className='flex gap-2 items-center font-medium text-red-500 focus:outline-none'
+                    onClick={openDelete}
+                >
                     <Trash2 /> Delete
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />

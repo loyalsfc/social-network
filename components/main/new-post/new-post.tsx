@@ -88,7 +88,7 @@ function NewPost() {
                         <label htmlFor='upload-image' className='text-black/60 hover:scale-105 transition-all'>
                             <ImageIcon/>
                         </label>
-                        <input onChange={(e)=>handleImageUpload(e, "video", setBlobs)} type="file" name="upload-image" id="upload-image" hidden accept='image/*' multiple/>
+                        <input onChange={(e)=>handleImageUpload(e, "image", setBlobs)} type="file" name="upload-image" id="upload-image" hidden accept='image/*' multiple/>
                     </div>
                     <div>
                         <label htmlFor='upload-video' className='text-black/60 hover:scale-105 transition-all'>

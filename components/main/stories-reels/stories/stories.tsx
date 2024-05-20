@@ -6,7 +6,7 @@ import Card from './card'
 function Stories() {
     return (
         <div>
-            <div className='flex gap-6 p-6'>
+            <div className='flex gap-6 p-6 overflow-x-scroll'>
                 {dummyData.map((item, index) => {
                     return <Card 
                         key={index} 
