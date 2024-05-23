@@ -5,12 +5,10 @@ import CardImages from '../main/feeds/post-cards/card-images'
 
 import TimeAgo from 'javascript-time-ago'
 import en from 'javascript-time-ago/locale/en'
-import { HeartSolid } from '../main/feeds/reactions/likes'
 import { ProfileHoverCard } from '../hover-card/profile-hovercard'
 import { VerifiedIcon } from 'lucide-react'
-import DropMenu from './comment-reaction/comment-menu/comment-menu'
-import PostCommentDelete from './modals/post-comment-delete'
 import CommentPopBtn from './comment-reaction/comment-menu/comment-pop-btn'
+import  CommentReactions  from './comment-reaction/comment-like/comment-like'
 
 TimeAgo.addDefaultLocale(en)
 
@@ -21,10 +19,11 @@ function Comments({
 }:{
     comments: CommentInterface[]
 }) {
-
+    console.log(comments);
     return (
         <div className='bg-white px-4'>
             {comments.map(item => {
+                console.log(item.likes_count)
                 return(
                     <div className='flex gap-2 pb-4'>
                         <ProfilePictureAvatar 
@@ -33,7 +32,7 @@ function Comments({
                         />
                         <div className='flex group'>
                             <div className='w-fit'>
-                                <div className='py-2 px-3 rounded-3xl bg-grey-100/10 text-[15px]'>
+                                <div className='py-2 px-3 rounded-2xl bg-grey-100/10 text-[15px]'>
                                     <div className='flex items-center gap-1.5'>
                                         <ProfileHoverCard
                                             hoverText={item.name} 
@@ -49,12 +48,12 @@ function Comments({
                                     <p>{item.comment_text}</p>
                                 </div>
                                 {item.media.length > 0 && <CardImages media={item.media} />}
-                                <div className='flex gap-2 text-grey-500 items-center'>
-                                    <span className='text-xs'>{timeAgo.format(new Date(item.created_at), "mini-now")}</span>
-                                    <button className='text-sm font-medium hover:scale-105 transition-all'>Like</button>
-                                    <button className='text-sm font-medium hover:scale-105 transition-all'>Reply</button>
-                                    {item.likes_count !== 0 && <HeartSolid />}
-                                </div>
+                                <CommentReactions 
+                                    id={item.id}
+                                    time={timeAgo.format(new Date(item.created_at), "mini-now")}
+                                    likedUsers={item.liked_users}
+                                    likesCount={item.likes_count}
+                                />
                             </div>
                             <div className='pt-4 pl-2  group-hover:visible'>
                                 <CommentPopBtn id={item.id} username={item.username} />

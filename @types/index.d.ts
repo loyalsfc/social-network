@@ -51,7 +51,8 @@ export interface CommentInterface{
     updated_at: string,
     name: string,
     profile_picture: string,
-    is_verified: boolean
+    is_verified: boolean,
+    liked_users: string[]
 }
 
 export interface NotificationInterface{
