@@ -1,12 +1,9 @@
-import { Ellipsis, VerifiedIcon } from 'lucide-react'
-import React, { useState } from 'react'
+import React from 'react'
 import { cn } from '@/lib/utils'
 import { PostInterface } from '@/@types'
 import CardImages from '../main/feeds/post-cards/card-images'
 import ReactionsWrapper from '../main/feeds/reactions/reactions-wrapper'
-import ProfilePictureAvatar from '../profile-picture-avatar/profile-picture-avatar'
 import PostHeader from '../main/feeds/post-cards/post-header/post-header'
-import Back from './back'
 
 interface Props {
     post: PostInterface

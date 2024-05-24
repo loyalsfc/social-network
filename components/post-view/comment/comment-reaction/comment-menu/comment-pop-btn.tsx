@@ -1,8 +1,8 @@
 'use client'
 
-import React, { createRef, useState } from 'react'
-import PostCommentDelete from '../../modals/post-comment-delete'
+import React, { useState } from 'react'
 import DropMenu from './comment-menu'
+import PostCommentDelete from '@/components/post-view/modals/post-comment-delete';
 
 function CommentPopBtn({
     username, 

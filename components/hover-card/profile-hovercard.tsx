@@ -1,3 +1,5 @@
+"use client"
+
 import { UserInterface } from "@/@types"
 import { endpointGetRequests, getFollowInfo } from "@/app/action"
 import {
@@ -10,8 +12,9 @@ import Link from "next/link"
 import ProfilePictureAvatar from "../profile-picture-avatar/profile-picture-avatar"
 import Follow from "../profile/profile-picture/follow"
 import { cn } from "@/lib/utils"
+import { useEffect, useState } from "react"
 
-export async function ProfileHoverCard({
+export function ProfileHoverCard({
     hoverText,
     textClassName,
     username
@@ -20,9 +23,30 @@ export async function ProfileHoverCard({
     textClassName: string,
     username: string
 }) {
-    const user: UserInterface = await endpointGetRequests(`/user/${username.replace("@", "")}`)
-    if(!user.id) return;
-    const followInfo = await getFollowInfo(user.id);
+    const [data, setData] = useState<{
+        loading: boolean,
+        user: null | UserInterface
+    }>({
+        loading: true,
+        user: null,
+    })
+
+    useEffect(()=>{
+        fetchData()
+    },[])
+
+    async function fetchData(){
+        const user: UserInterface = await endpointGetRequests(`/user/${username.replace("@", "")}`)
+        setData({
+            loading: false,
+            user
+        })
+    }
+
+    if(data.loading) return; 
+    const user = data.user;
+    if(!user?.id) return;
+    // const followInfo = await getFollowInfo(user.id);
     return (
         <HoverCard>
             <HoverCardTrigger asChild>
@@ -62,13 +86,13 @@ export async function ProfileHoverCard({
                                 href={`/${user.username}/following`} 
                                 className='hover:underline font-medium'
                             >
-                                {followInfo.following.length} following
+                                {0} following
                             </Link>
                             <Link 
                                 href={`/${user.username}/followers`} 
                                 className='hover:underline font-medium'
                             >
-                                {followInfo.followers.length} followers
+                                {0} followers
                             </Link>
                         </div>
                     </div>

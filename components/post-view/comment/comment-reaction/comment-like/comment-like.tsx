@@ -10,10 +10,8 @@ import {
     TooltipContent,
     TooltipProvider,
     TooltipTrigger,
-  } from "@/components/ui/tooltip"
-import Link from 'next/link';
+} from "@/components/ui/tooltip";
   
-
 const CommentLike = ({
     id,
     likedUsers,
@@ -58,12 +56,14 @@ function CommentReactions({
     time,
     id,
     likedUsers,
-    likesCount
+    likesCount,
+    setShowReplyBox
 }:{
     time: string,
     id: string,
     likedUsers: string[],
     likesCount: number,
+    setShowReplyBox: Dispatch<SetStateAction<boolean>>
 }){
     const [count, setCount] = useState(likesCount)
     return(
@@ -72,7 +72,12 @@ function CommentReactions({
                 {time}
             </span>
             <CommentLike id={id} likedUsers={likedUsers} setCount={setCount} />
-            <button className='text-sm block font-medium hover:underline transition-all'>Reply</button>
+            <button 
+                className='text-sm block font-medium hover:underline transition-all'
+                onClick={()=>setShowReplyBox(true)}
+            >
+                Reply
+            </button>
             {count !== 0 && 
                 <TooltipProvider>
                     <Tooltip>
@@ -87,13 +92,12 @@ function CommentReactions({
                                 {likedUsers.map((item, index) => {
                                     if(index > 10) return;
                                     return(
-                                        <Link
-                                            href={`/${item}`} 
+                                        <p
                                             className='block hover:underline pr-4 py-1' 
                                             key={index}
                                         >
                                             @{item}
-                                        </Link>
+                                        </p>
                                     )
                                 })}
                                 {likedUsers.length > 10 && <p>and 24+ more</p>}
