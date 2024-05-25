@@ -63,7 +63,7 @@ function CommentReactions({
     id: string,
     likedUsers: string[],
     likesCount: number,
-    setShowReplyBox: Dispatch<SetStateAction<boolean>>
+    setShowReplyBox?: Dispatch<SetStateAction<boolean>>
 }){
     const [count, setCount] = useState(likesCount)
     return(
@@ -72,12 +72,12 @@ function CommentReactions({
                 {time}
             </span>
             <CommentLike id={id} likedUsers={likedUsers} setCount={setCount} />
-            <button 
+            {setShowReplyBox && <button 
                 className='text-sm block font-medium hover:underline transition-all'
                 onClick={()=>setShowReplyBox(true)}
             >
                 Reply
-            </button>
+            </button>}
             {count !== 0 && 
                 <TooltipProvider>
                     <Tooltip>

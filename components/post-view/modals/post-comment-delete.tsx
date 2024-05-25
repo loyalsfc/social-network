@@ -1,6 +1,4 @@
-import React, { LegacyRef, useState } from 'react'
-import { ModalWrapper } from '../../modal/modal-wrapper'
-import { Trash2 } from 'lucide-react'
+import React, { RefObject, useState } from 'react'
 import { Button } from '../../ui/button'
 import { endpointDeleteRequests } from '@/app/action';
 import { usePathname, useRouter } from 'next/navigation';
@@ -9,10 +7,11 @@ import { toast } from 'react-toastify';
 interface Props{
     id: string;
     path: string;
-    closeDelete: ()=>void
+    closeDelete: ()=>void;
+    itemRef?: RefObject<HTMLDivElement>
 }
 
-function PostCommentDelete({id, path, closeDelete}:Props) {
+function PostCommentDelete({id, path, closeDelete, itemRef}:Props) {
     const [isLoading, setIsLoading] = useState(false)
     const pathName = usePathname()
     const router = useRouter();
@@ -31,7 +30,10 @@ function PostCommentDelete({id, path, closeDelete}:Props) {
         //otherwise refresh the page
         if(pathName === `/post/${id}` && path === "/post"){
             router.back()
-        } else {
+        } 
+        if(itemRef?.current){
+            itemRef.current.remove()
+        }else {
             router.refresh();
         }
         closeDelete();

@@ -5,6 +5,13 @@ import axios from "axios";
 import { ChangeEvent, Dispatch, SetStateAction } from "react";
 import { Media } from "@/@types";
 
+import TimeAgo from 'javascript-time-ago'
+import en from 'javascript-time-ago/locale/en'
+
+TimeAgo.addDefaultLocale(en)
+
+export const timeAgo = new TimeAgo("en-US")
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }

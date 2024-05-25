@@ -1,12 +1,7 @@
 import { CommentInterface } from '@/@types'
 import React from 'react'
-import TimeAgo from 'javascript-time-ago'
-import en from 'javascript-time-ago/locale/en'
 import Card from './comment/card/card'
-
-TimeAgo.addDefaultLocale(en)
-
-const timeAgo = new TimeAgo("en-US")
+import { timeAgo } from '@/lib/utils'
 
 function Comments({
     comments

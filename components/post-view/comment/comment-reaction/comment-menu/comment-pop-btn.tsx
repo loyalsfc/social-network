@@ -1,15 +1,19 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { RefObject, useState } from 'react'
 import DropMenu from './comment-menu'
 import PostCommentDelete from '@/components/post-view/modals/post-comment-delete';
 
 function CommentPopBtn({
     username, 
-    id
+    id,
+    path,
+    itemRef
 }:{
     username: string;
-    id: string
+    id: string;
+    path: string;
+    itemRef?: RefObject<HTMLDivElement>
 }) {
     const [showCommentDelete, setShowCommentDelete] = useState(false)
 
@@ -24,8 +28,9 @@ function CommentPopBtn({
             </div>
            {showCommentDelete && <PostCommentDelete
                 id={id} 
-                path='/comment' 
+                path={path}
                 closeDelete={()=>setShowCommentDelete(false)}
+                itemRef={itemRef}
             />}
         </>
     )
