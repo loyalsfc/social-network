@@ -15,11 +15,13 @@ import {
 const CommentLike = ({
     id,
     likedUsers,
-    setCount
+    setCount,
+    type,
 }:{
     id: string;
     likedUsers: string[];
     setCount: Dispatch<SetStateAction<number>>;
+    type: "reply" | "comment"
 }) => {
     const {user} = useAppSelector(state => state.user);
     const [isLiked, setIsLiked] = useState(false);
@@ -31,9 +33,9 @@ const CommentLike = ({
     },[user])
 
     async function likeComment(){
-        const path = isLiked ? "/unlike-comment" : "/like-comment"
+        const path = isLiked ? `/unlike-${type}` : `/like-${type}`
         const response = await endpointPostRequests(`${path}/${id}`, {})
-        
+        console.log(path);
         if(response?.status === "success"){
             setIsLiked(prevState => !prevState);
             setCount(response.payload)
@@ -57,13 +59,15 @@ function CommentReactions({
     id,
     likedUsers,
     likesCount,
-    setShowReplyBox
+    setShowReplyBox,
+    type
 }:{
     time: string,
     id: string,
     likedUsers: string[],
     likesCount: number,
-    setShowReplyBox?: Dispatch<SetStateAction<boolean>>
+    setShowReplyBox?: Dispatch<SetStateAction<boolean>>,
+    type: "reply" | "comment"
 }){
     const [count, setCount] = useState(likesCount)
     return(
@@ -71,7 +75,12 @@ function CommentReactions({
             <span className='text-xs block'>
                 {time}
             </span>
-            <CommentLike id={id} likedUsers={likedUsers} setCount={setCount} />
+            <CommentLike 
+                id={id} 
+                likedUsers={likedUsers} 
+                setCount={setCount}
+                type={type}
+             />
             {setShowReplyBox && <button 
                 className='text-sm block font-medium hover:underline transition-all'
                 onClick={()=>setShowReplyBox(true)}

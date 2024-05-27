@@ -48,6 +48,7 @@ function Card({
                             time={time}
                             likedUsers={comment.liked_users}
                             likesCount={comment.likes_count}
+                            type="reply"
                         />
                     </div>
                     <div className='pt-4 pl-2 '>

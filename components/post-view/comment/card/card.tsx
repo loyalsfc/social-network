@@ -52,6 +52,7 @@ function Card({
                             likedUsers={comment.liked_users}
                             likesCount={comment.likes_count}
                             setShowReplyBox={setShowReplyBox}
+                            type="comment"
                         />
                         {replyCount > 0 && <div className=''>
                            {!showReplies ?
