@@ -27,22 +27,28 @@ function Card({
             <div className='flex-1'>
                 <div className='flex group-reply'>
                     <div className='w-fit'>
-                        <div className='py-2 px-3 rounded-2xl bg-grey-100/10 text-[15px]'>
-                            <div className='flex items-center gap-1.5'>
-                                <ProfileHoverCard
-                                    hoverText={comment.name} 
-                                    textClassName='font-semibold text-[#06090C]'
-                                    username={comment.username} 
-                                />
-                                {comment.is_verified && <VerifiedIcon size={20} color='#40D89D' />}
-                                <ProfileHoverCard 
-                                    textClassName='text-[#263B42] text-sm font-medium'
-                                    username={"@"+comment.username} 
-                                />
+                        <div className=''>
+                            <div className='py-2 px-3 rounded-2xl bg-grey-100/10 text-[15px] mb-2'>
+                                <div className='flex items-center gap-1.5'>
+                                    <ProfileHoverCard
+                                        hoverText={comment.name} 
+                                        textClassName='font-semibold text-[#06090C]'
+                                        username={comment.username} 
+                                    />
+                                    {comment.is_verified && <VerifiedIcon size={20} color='#40D89D' />}
+                                    <ProfileHoverCard 
+                                        textClassName='text-[#263B42] text-sm font-medium'
+                                        username={"@"+comment.username} 
+                                    />
+                                </div>
+                                <p>{comment.comment_text}</p>
                             </div>
-                            <p>{comment.comment_text}</p>
+                            {comment.media.length > 0 && 
+                                <div className=' max-w-52'>
+                                    <CardImages media={comment.media} />
+                                </div>
+                            }
                         </div>
-                        {comment.media.length > 0 && <CardImages media={comment.media} />}
                         <CommentReactions
                             id={comment.id}
                             time={time}

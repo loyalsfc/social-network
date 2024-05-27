@@ -1,16 +1,9 @@
-import TimeAgo from 'javascript-time-ago'
-
-// English.
-import en from 'javascript-time-ago/locale/en'
 import { ProfileHoverCard } from '@/components/hover-card/profile-hovercard'
 import ProfilePictureAvatar from '@/components/profile-picture-avatar/profile-picture-avatar'
 import { Ellipsis, VerifiedIcon } from 'lucide-react'
 import React from 'react'
 import DropMenu from './drop-menu'
-
-
-TimeAgo.addDefaultLocale(en)
-const timeAgo = new TimeAgo('en-US')
+import { timeAgo } from '@/lib/utils'
 
 interface Props{
     postId: string;

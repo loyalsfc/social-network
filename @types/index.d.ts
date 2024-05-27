@@ -3,6 +3,11 @@ export type Media = {
     mediaType: "image" | "video"
 }
 
+export interface CommentMedia {
+    status: "pending" | "loading" | "active",
+    data: null | Media
+}
+
 export interface UserInterface {
     id: string,
     name: string,

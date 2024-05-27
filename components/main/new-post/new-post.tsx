@@ -116,7 +116,7 @@ function NewPost() {
                     return(
                         <div className='h-56 w-40 shrink-0 relative rounded overflow-hidden' key={index}>
                             <button 
-                                className='z-10 absolute top-2 right-2 h-6 w-6 grid place-content-center bg-black/20 hover:bg-black/30 rounded-full'
+                                className='cancel-btn'
                                 onClick={()=>removeMedia(item.url)}
                             >
                                 <X color='#FFF' size={16} />

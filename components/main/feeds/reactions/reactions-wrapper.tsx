@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react'
 import CommentBox from './comment'
-import { Button } from '@/components/ui/button'
 import { Forward, MessageSquareIcon } from 'lucide-react'
 import Bookmarks from './bookmarks'
 import { cn } from '@/lib/utils'

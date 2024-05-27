@@ -37,6 +37,9 @@
     .active-tabs{
         @apply font-bold border-b-4 border-b-secondary
     }
+    .cancel-btn{
+        @apply z-10 absolute top-2 right-2 h-6 w-6 grid place-content-center bg-black/20 hover:bg-black/30 rounded-full
+    }
 }
 
 .snippet-ellipsis{

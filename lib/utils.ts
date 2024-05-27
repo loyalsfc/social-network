@@ -3,7 +3,7 @@ import { twMerge } from "tailwind-merge"
 import {Cloudinary} from "@cloudinary/url-gen";
 import axios from "axios";
 import { ChangeEvent, Dispatch, SetStateAction } from "react";
-import { Media } from "@/@types";
+import { CommentMedia, Media } from "@/@types";
 
 import TimeAgo from 'javascript-time-ago'
 import en from 'javascript-time-ago/locale/en'
@@ -45,7 +45,6 @@ export const handleImageUpload = async(
   if(!files) return;
 
   for (let index = 0; index < files?.length; index++) {
-      if (index === 0) console.log(files[0])
       const file = files[index];
       const data = await uploadImage(file)
       // const url = URL.createObjectURL(file)
@@ -55,6 +54,38 @@ export const handleImageUpload = async(
           url: data?.secure_url
       }])
   }
+}
+
+export const uploadSingleMedia = async(
+  e: ChangeEvent<HTMLInputElement>, 
+  mediaType: "image" | "video", 
+  setMedia: Dispatch<SetStateAction<CommentMedia>>
+) => {
+  const files = e.target.files;
+
+  if(!files) return;
+  setMedia({
+    status: "loading",
+    data: null
+})
+  const file = files[0];
+  const data = await uploadImage(file)
+  // const url = URL.createObjectURL(file)
+  if(!data?.secure_url) return;
+  setMedia({
+    status: "active",
+    data: {
+      mediaType,
+      url: data?.secure_url
+    }
+  })
+}
+
+export const restoreMediaToDefault = (setMedia: Dispatch<SetStateAction<CommentMedia>>) => {
+  setMedia({
+      status: "pending",
+      data: null
+  })
 }
 
 const regex = /\/v\d+\/([^/]+)\.\w{3,4}$/;
