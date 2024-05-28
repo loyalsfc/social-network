@@ -1,6 +1,6 @@
 'use client'
 
-import React, { RefObject, useState } from 'react'
+import React, { Dispatch, RefObject, SetStateAction, useState } from 'react'
 import DropMenu from './comment-menu'
 import PostCommentDelete from '@/components/post-view/modals/post-comment-delete';
 
@@ -8,12 +8,15 @@ function CommentPopBtn({
     username, 
     id,
     path,
-    itemRef
+    itemRef,
+    setIsEditMode
 }:{
     username: string;
     id: string;
     path: string;
-    itemRef?: RefObject<HTMLDivElement>
+    itemRef?: RefObject<HTMLDivElement>;
+    setIsEditMode: Dispatch<SetStateAction<boolean>>
+
 }) {
     const [showCommentDelete, setShowCommentDelete] = useState(false)
 
@@ -24,6 +27,7 @@ function CommentPopBtn({
                     username={username} 
                     commentId={id} 
                     openDelete={()=>setShowCommentDelete(true)}
+                    enableEdit={()=>setIsEditMode(true)}
                 />
             </div>
            {showCommentDelete && <PostCommentDelete

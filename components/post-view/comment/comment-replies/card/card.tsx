@@ -18,6 +18,7 @@ function Card({
     time: string,
 }) {
     const ref = createRef<HTMLDivElement>()
+    const [isEditMode, setIsEditMode] = useState(false)
     return (
         <div className='flex gap-2 pb-4' ref={ref}>
             <ProfilePictureAvatar
@@ -63,6 +64,7 @@ function Card({
                             username={comment.username} 
                             path='/reply'
                             itemRef={ref}
+                            setIsEditMode={setIsEditMode}
                         />
                     </div>
                 </div>

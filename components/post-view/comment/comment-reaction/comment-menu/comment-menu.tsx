@@ -4,16 +4,17 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSepara
 import { useAppSelector } from '@/lib/hook';
 import { Edit2Icon, Ellipsis, Flag, Trash2, UserPlus2, UserRoundX } from 'lucide-react'
 import React from 'react'
-import PostCommentDelete from '../../modals/post-comment-delete';
 
 function DropMenu({
     username,
     commentId,
-    openDelete
+    openDelete,
+    enableEdit
 }:{
     username:string;
     commentId:string;
     openDelete: ()=>void; 
+    enableEdit: ()=>void;
 }) {
     const {user} =useAppSelector(state => state.user);
     return (
@@ -27,7 +28,10 @@ function DropMenu({
                     <Trash2 /> Delete
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem className='flex gap-2 items-center font-medium'>
+                <DropdownMenuItem 
+                    className='flex gap-2 items-center font-medium'
+                    onClick={enableEdit}
+                >
                     <Edit2Icon /> Edit comment
                 </DropdownMenuItem>
             </DropdownMenuContent>:<DropdownMenuContent>
