@@ -53,16 +53,6 @@ function ViewComment({
                         setShowReplyBox={setShowReplyBox}
                         type="comment"
                     />
-                    {replyCount > 0 && <div className=''>
-                        {!showReplies ?
-                        <button 
-                            className='text-sm font-semibold text-grey-100 hover:underline'
-                            onClick={()=>setShowReplies(true)}
-                        >
-                            View {replyCount === 1 ?"1 reply" : `all ${replyCount} replies`}
-                        </button> : <Replies commentId={comment.id} />
-                        }
-                    </div>}
                 </div>
                 <div className='pt-4 pl-2 invisible group-hover:visible'>
                     <CommentPopBtn 
@@ -73,6 +63,16 @@ function ViewComment({
                     />
                 </div>
             </div>
+            {replyCount > 0 && <div className=''>
+                {!showReplies ?
+                <button 
+                    className='text-sm font-semibold text-grey-100 hover:underline'
+                    onClick={()=>setShowReplies(true)}
+                >
+                    View {replyCount === 1 ?"1 reply" : `all ${replyCount} replies`}
+                </button> : <Replies commentId={comment.id} />
+                }
+            </div>}
             {showReplyBox && <CommentReply
                 isShown={true}
                 commentID={comment.id}

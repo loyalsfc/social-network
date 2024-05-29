@@ -1,10 +1,9 @@
 'use client'
 
-import { endpointPostRequests, endpointUpdateRequests } from '@/app/action'
+import { endpointUpdateRequests } from '@/app/action'
 import { cn, restoreMediaToDefault, uploadSingleMedia } from '@/lib/utils'
 import { ImageIcon, SendHorizonal, Smile, Video, X } from 'lucide-react'
 import React, { createRef, useEffect, useState } from 'react'
-import { toast } from 'react-toastify'
 import Image from 'next/image'
 import { CommentMedia, Media } from '@/@types'
 
@@ -12,12 +11,14 @@ function EditComment({
     commentID,
     value,
     defaultMedia,
-    cancelEdit
+    cancelEdit,
+    path,
 }:{
     commentID: string,
     value: string,
     defaultMedia: Media[],
-    cancelEdit: ()=>void
+    cancelEdit: ()=>void,
+    path: "comment" | "reply"
 }) {
     const [media, setMedia] = useState<CommentMedia>({
         status: defaultMedia.length ? "active" : "pending",
@@ -42,10 +43,10 @@ function EditComment({
     },[])
 
     const editComment = async (formData: FormData) => {
-        const comment = formData.get("comment-edit")
+        const comment = formData.get(`${path}-edit`)
         if(!comment) return;
         inputRef.current!.disabled = true;
-        const response = await endpointUpdateRequests(`/comment/${commentID}`,{
+        const response = await endpointUpdateRequests(`/${path}/${commentID}`,{
             content: comment,
             media: media.status === "active" ? [media.data] : [],
         })
@@ -67,8 +68,8 @@ function EditComment({
                         <input 
                             ref={inputRef}
                             type="text" 
-                            name='comment-edit'
-                            id='comment-edit'
+                            name={`${path}-edit`}
+                            id={`${path}-edit`}
                             defaultValue={value}
                             className={cn(
                                     'w-full border border-black text-sm p-2 rounded-2xl focus:border-secondary focus:outline-none disabled:opacity-50', 
@@ -92,12 +93,12 @@ function EditComment({
                             {media.status === "pending" && <>
                                 <div>
                                     <label 
-                                        htmlFor='reply-image'
+                                        htmlFor={`edit-${path}-image`}
                                         className='hover:scale-105 hover:text-primary transition-all'
                                     >
                                         <ImageIcon size={20} />
                                     </label>
-                                    <input onChange={(e)=>uploadSingleMedia(e, "image", setMedia)} type="file" name="reply-image" hidden id="reply-image" accept='image/*' />
+                                    <input onChange={(e)=>uploadSingleMedia(e, "image", setMedia)} type="file" name={`edit-${path}-image`} hidden id={`edit-${path}-image`} accept='image/*' />
                                 </div>
                                 <button 
                                     className='hover:scale-105 hover:text-primary transition-all'

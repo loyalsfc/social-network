@@ -49,7 +49,7 @@ function CommentReply({
         inputRef.current!.value = "";
         addOptimisticComment(comment.toString())
         const data = await endpointPostRequests("/reply-comment",{
-            reply_text: comment,
+            content: comment,
             media: media.status === "active" ? [media.data] : [],
             comment_id: commentID
         })

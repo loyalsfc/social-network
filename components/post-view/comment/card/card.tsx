@@ -25,6 +25,7 @@ function Card({
                 value={comment.comment_text}
                 defaultMedia={comment.media}
                 cancelEdit={()=>setIsEditMode(false)}
+                path='comment'
             />:<ViewComment
                 comment={comment}
                 time={time}
