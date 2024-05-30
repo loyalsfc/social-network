@@ -1,5 +1,7 @@
 'use client'
 
+import { PostInterface } from '@/@types';
+import EditPost from '@/components/post-view/modals/edit-post';
 import PostCommentDelete from '@/components/post-view/modals/post-comment-delete';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { useAppSelector } from '@/lib/hook';
@@ -7,20 +9,19 @@ import { Clock7, Code2Icon, Edit2Icon, Ellipsis, Flag, MessageSquare, PinIcon, T
 import React, { useState } from 'react'
 
 function DropMenu({
-    username,
-    postId
+    post
 }:{
-    username:string;
-    postId:string;
+    post: PostInterface
 }) {
     const [showCommentDelete, setShowCommentDelete] = useState(false)
+    const [showEditPost, setShowEditPost] = useState(false);
 
     const {user} =useAppSelector(state => state.user);
     return (
         <>
             <DropdownMenu>
                 <DropdownMenuTrigger><Ellipsis /></DropdownMenuTrigger>
-                {username === user?.username ? <DropdownMenuContent>
+                {post.username === user?.username ? <DropdownMenuContent>
                     <DropdownMenuItem 
                         className='flex gap-2 items-center font-medium text-red-500'
                         onClick={()=>setShowCommentDelete(true)}
@@ -34,7 +35,10 @@ function DropMenu({
                     <DropdownMenuItem className='flex gap-2 items-center font-medium'>
                         <MessageSquare/> Who can comment on this post
                     </DropdownMenuItem>
-                    <DropdownMenuItem className='flex gap-2 items-center font-medium'>
+                    <DropdownMenuItem 
+                        className='flex gap-2 items-center font-medium'
+                        onClick={()=>setShowEditPost(true)}
+                    >
                         <Edit2Icon /> Edit post
                     </DropdownMenuItem>
                     <DropdownMenuItem className='flex gap-2 items-center font-medium'>
@@ -42,17 +46,17 @@ function DropMenu({
                     </DropdownMenuItem>
                 </DropdownMenuContent>:<DropdownMenuContent>
                     <DropdownMenuItem className='flex gap-2 items-center font-medium'>
-                        <UserPlus2 /> Follow @{username}
+                        <UserPlus2 /> Follow @{post.username}
                     </DropdownMenuItem>
                     <DropdownMenuItem className='flex gap-2 items-center font-medium'>
-                        <UserRoundX /> Block @{username}
+                        <UserRoundX /> Block @{post.username}
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem className='flex gap-2 items-center font-medium'>
                         <Flag/> Report this post
                     </DropdownMenuItem>
                     <DropdownMenuItem className='flex gap-2 items-center font-medium text-red-500'>
-                        <Clock7 /> Snooze @{username} for 30 days
+                        <Clock7 /> Snooze @{post.username} for 30 days
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem className='flex gap-2 items-center font-medium'>
@@ -61,9 +65,13 @@ function DropMenu({
                 </DropdownMenuContent>}
             </DropdownMenu>
             {showCommentDelete && <PostCommentDelete
-                id={postId} 
+                id={post.id} 
                 path='/post' 
                 closeDelete={()=>setShowCommentDelete(false)}
+            />}
+            {showEditPost && <EditPost 
+                post={post}
+                closeEdit={()=>setShowEditPost(false)}
             />}
         </>
 

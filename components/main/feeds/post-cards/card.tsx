@@ -16,12 +16,7 @@ function Card({
     return (
         <div className='block bg-white p-4'>
             <PostHeader
-                postId={post.id}
-                name={post.name}
-                username={post.username}
-                profilePicture={post.profile_picture}
-                isVerified={post.is_verified}
-                date={post.created_at}
+                post={post}
                 avatarSize={40}
                 showMenu={true}
             />

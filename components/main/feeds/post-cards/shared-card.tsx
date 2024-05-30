@@ -18,12 +18,7 @@ async function SharedCard({
     return (
         <div className='block bg-white p-4'>
             <PostHeader
-                postId={post.id}
-                name={post.name}
-                username={post.username}
-                profilePicture={post.profile_picture}
-                isVerified={post.is_verified}
-                date={post.created_at}
+                post={post}
                 avatarSize={40}
                 showMenu={true}
             />
@@ -35,12 +30,7 @@ async function SharedCard({
             </Link>
             <div className='p-2 mt-4 rounded-2xl border border-grey'>
                 <PostHeader
-                    postId={sharedPost.id}
-                    name={sharedPost.name}
-                    username={sharedPost.username}
-                    profilePicture={sharedPost.profile_picture}
-                    isVerified={sharedPost.is_verified}
-                    date={sharedPost.created_at}
+                    post={sharedPost}
                     avatarSize={32}
                     showMenu={false}
                 />

@@ -25,12 +25,7 @@ function PostView({
         <div className='block bg-white p-4'>
             {/* <Back /> */}
             <PostHeader
-                postId={post.id}
-                name={name}
-                username={username}
-                profilePicture={profile_picture}
-                isVerified={is_verified}
-                date={created_at}
+               post={post}
                 avatarSize={50}
                 showMenu={true}
             />

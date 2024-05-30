@@ -4,45 +4,37 @@ import { Ellipsis, VerifiedIcon } from 'lucide-react'
 import React from 'react'
 import DropMenu from './drop-menu'
 import { timeAgo } from '@/lib/utils'
+import { PostInterface } from '@/@types'
 
 interface Props{
-    postId: string;
-    name:string,
-    username:string,
-    profilePicture:string,
-    isVerified:boolean,
-    date?:string,
+    post:PostInterface
     avatarSize:number,
     showMenu:boolean
 }
 
 function PostHeader({
-    postId,
-    name,
-    username,
-    profilePicture,
-    isVerified,
-    date,
+    post,
     avatarSize,
     showMenu
 }:Props) {
+    console.log(post)
     return (
         <div className='flex items-center gap-1.5 text-[#263B42]'>
-            <ProfilePictureAvatar link={profilePicture} size={avatarSize} />
+            <ProfilePictureAvatar link={post.profile_picture} size={avatarSize} />
             <ProfileHoverCard
-                hoverText={name} 
+                hoverText={post.name} 
                 textClassName='font-medium text-lg text-[#06090C]'
-                username={username} 
+                username={post.username} 
             />
-            {isVerified && <VerifiedIcon size={20} color='#40D89D' />}
+            {post.is_verified && <VerifiedIcon size={20} color='#40D89D' />}
             <ProfileHoverCard 
                 textClassName='text-[#263B42]'
-                username={"@"+username} 
+                username={"@"+post.username} 
             />
             -
-            {date && <span>{timeAgo.format(new Date(date), "twitter")}</span>}
+            {post.created_at && <span>{timeAgo.format(new Date(post.created_at), "twitter")}</span>}
             {showMenu && <div className="ml-auto h-7 w-7 rounded-full grid place-content-center hover:bg-gray-600/20">
-                <DropMenu username={username} postId={postId} />
+                <DropMenu post={post} />
             </div>}
         </div>
     )
