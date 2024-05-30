@@ -1,6 +1,6 @@
 'use client'
 
-import { CommentMedia } from '@/@types'
+import EmojiPicker from 'emoji-picker-react';
 import { endpointUpdateRequests, newPost } from '@/app/action'
 import { Button } from '@/components/ui/button'
 import { useAppSelector } from '@/lib/hook'
@@ -9,8 +9,13 @@ import { CalendarClock, ImageIcon, Smile, Video, X } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import React, { useState } from 'react'
+import React, { createRef, useState } from 'react'
 import { toast } from 'react-toastify'
+import InputEmoji from "react-input-emoji";
+import data from '@emoji-mart/data'
+import Picker from '@emoji-mart/react'
+import Emoji from '@/components/emoji/emoji';
+
 
 interface Media {
     mediaType: "video" | "image";
@@ -38,8 +43,9 @@ function Post({
     })
     const [blobs, setBlobs] = useState<Media[]>(defaultMedia);
     const [postContent, setPostContent] = useState<string>(defaultText);
-    const {user} = useAppSelector(state => state.user)
-    const router = useRouter()
+    const {user} = useAppSelector(state => state.user);
+    const router = useRouter();
+    const inputRef = createRef<HTMLTextAreaElement>()
 
     const removeMedia = (url: string) => {
         setBlobs(prevState => {
@@ -95,6 +101,7 @@ function Post({
                 }}
                 value={postContent}
                 rows={3}
+                ref={inputRef}
             />
             <div className='flex justify-between items-center'>
                 <div className='flex gap-4 items-center'>
@@ -126,9 +133,10 @@ function Post({
                             multiple
                         />
                     </div>
-                    <button className='text-black/60 hover:scale-105 transition-all'>
-                        <Smile/>
-                    </button>
+                    <Emoji 
+                        setContent={setPostContent}
+                        inputRef={inputRef}
+                    />
                     <button className='text-black/60 hover:scale-105 transition-all'>
                         <CalendarClock />
                     </button>

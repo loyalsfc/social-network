@@ -2,10 +2,11 @@
 
 import { CommentMedia } from '@/@types'
 import { insertComment } from '@/app/action'
+import Emoji from '@/components/emoji/emoji'
 import ProfilePictureAvatar from '@/components/profile-picture-avatar/profile-picture-avatar'
 import { useAppSelector } from '@/lib/hook'
 import { cn, restoreMediaToDefault, uploadSingleMedia } from '@/lib/utils'
-import { ImageIcon, SendHorizonal, Smile, Video, X } from 'lucide-react'
+import { ImageIcon, SendHorizonal, Video, X } from 'lucide-react'
 import Image from 'next/image'
 import React, { Dispatch, SetStateAction, createRef, useEffect, useOptimistic, useState } from 'react'
 import { toast } from 'react-toastify'
@@ -27,6 +28,7 @@ function CommentBox({
     className?: string
     fixedCommentBox: boolean
 }) {
+    const [commentText, setCommentText] = useState<string>("")
     const [media, setMedia] = useState<CommentMedia>({
         status: "pending",
         data: null
@@ -56,9 +58,11 @@ function CommentBox({
                 post_id: postID
             })
             if(data?.payload){
-                setCommentCount(data?.payload)
-                toast.success("comment successful")
+                setCommentCount(data?.payload);
+                toast.success("comment successful");
                 restoreMediaToDefault(setMedia);
+                setCommentText("");
+                setIsFocused(false);
             }
     }
     
@@ -99,6 +103,8 @@ function CommentBox({
                                         )} 
                                     autoComplete='off'
                                     onFocus={()=>setIsFocused(true)}
+                                    value={commentText}
+                                    onChange={(e)=>setCommentText(e.target.value)}
                                 /> 
                                 <div 
                                     className={cn(
@@ -106,12 +112,11 @@ function CommentBox({
                                         !isFocused ? "right-2 bottom-1/2 translate-y-1/2 w-fit" : "bottom-1 left-0 px-2 w-full"
                                     )}
                                 >
-                                    <button 
-                                        className='hover:scale-105 hover:text-primary transition-all'
-                                        type='button'
-                                    >
-                                        <Smile size={20} />
-                                    </button>
+                                    <Emoji
+                                        inputRef={inputRef}
+                                        setContent={setCommentText}
+                                        iconSize={20}
+                                    />  
                                     {media.status === "pending" && <>
                                         <div>
                                             <label 
@@ -129,7 +134,10 @@ function CommentBox({
                                             <Video size={24} />
                                         </button>
                                     </>}
-                                    <button className={cn('hover:scale-105 hover:text-primary transition-all', isFocused && 'ml-auto')}>
+                                    <button
+                                        disabled={commentText === ""} 
+                                        className={cn('hover:scale-105 disabled:opacity-30 hover:text-primary transition-all', isFocused && 'ml-auto')}
+                                    >
                                         <SendHorizonal size={20} />
                                     </button>
                                 </div>

@@ -9,6 +9,7 @@ import React, { Dispatch, SetStateAction, createRef, useEffect, useOptimistic, u
 import { toast } from 'react-toastify'
 import Image from 'next/image'
 import { CommentMedia } from '@/@types'
+import Emoji from '@/components/emoji/emoji'
 
 type Comment = {
     comment: string
@@ -25,6 +26,7 @@ function CommentReply({
     className?: string
     setreplyCount: Dispatch<SetStateAction<number>>
 }) {
+    const [replyText, setReplyText] = useState("");
     const [media, setMedia] = useState<CommentMedia>({
         status: "pending",
         data: null
@@ -57,6 +59,8 @@ function CommentReply({
             setreplyCount(data.payload);
             toast.success("comment successful");
             restoreMediaToDefault(setMedia);
+            setReplyText("");
+            setIsFocused(false);
         }
     }
     
@@ -97,19 +101,20 @@ function CommentReply({
                                         )} 
                                     autoComplete='off'
                                     onFocus={()=>setIsFocused(true)}
+                                    onChange={(e)=>setReplyText(e.target.value)}
+                                    value={replyText}
                                 /> 
                                 <div 
                                     className={cn(
-                                        'next-element absolute flex items-center transition-all gap-1 text-black-100/70 w-full',
-                                        !isFocused ? "right-2 bottom-1/2 translate-y-1/2" : "bottom-1 left-0 px-2"
+                                        'next-element absolute flex items-center transition-all gap-1 text-black-100/70',
+                                        !isFocused ? "right-2 bottom-1/2 translate-y-1/2" : "bottom-1 left-0 px-2 w-full"
                                     )}
                                 >
-                                    <button 
-                                        className='hover:scale-105 hover:text-primary transition-all'
-                                        type='button'
-                                    >
-                                        <Smile size={20} />
-                                    </button>
+                                    <Emoji
+                                        iconSize={20}
+                                        inputRef={inputRef}
+                                        setContent={setReplyText}
+                                    />
                                     {media.status === "pending" && <>
                                         <div>
                                             <label 
@@ -127,7 +132,10 @@ function CommentReply({
                                             <Video size={24} />
                                         </button>
                                     </>}
-                                    <button className='hover:scale-105 hover:text-primary transition-all ml-auto'>
+                                    <button
+                                        disabled={replyText === ""} 
+                                        className={cn('hover:scale-105 hover:text-primary disabled:opacity-50 transition-all', isFocused && 'ml-auto')}
+                                    >
                                         <SendHorizonal size={20} />
                                     </button>
                                 </div>
