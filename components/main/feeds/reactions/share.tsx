@@ -1,20 +1,19 @@
 import { Media, PostInterface } from '@/@types'
 import { endpointPostRequests } from '@/app/action'
 import { ModalWrapper } from '@/components/modal/modal-wrapper'
-import { CalendarClock, ForwardIcon, ImageIcon, Smile, VerifiedIcon, Video } from 'lucide-react'
+import { CalendarClock, ForwardIcon, ImageIcon, VerifiedIcon, Video } from 'lucide-react'
 import React, { createRef, useState } from 'react'
 import Link from 'next/link'
 import { cn, handleImageUpload } from '@/lib/utils'
 import ProfilePictureAvatar from '@/components/profile-picture-avatar/profile-picture-avatar'
 import { useAppSelector } from '@/lib/hook'
 import { Button } from '@/components/ui/button'
+import Emoji from '@/components/emoji/emoji'
+import { toast } from 'react-toastify'
 
 function SharePost({post}:{post: PostInterface}) {
     const ref = createRef<HTMLButtonElement>()
-    const [successNotification, setSuccessNotification] = useState({
-        postID: "",
-        isShown: false
-    })
+    const inputRef = createRef<HTMLTextAreaElement>()
     const [blobs, setBlobs] = useState<Media[]>([]);
     const [postContent, setPostContent] = useState<string>("");
 
@@ -43,17 +42,7 @@ function SharePost({post}:{post: PostInterface}) {
             ref.current?.click();
             setBlobs([]);
             setPostContent("");
-            setSuccessNotification({
-                postID: post.id,
-                isShown: true
-            })
-            
-            setTimeout(()=>{
-                setSuccessNotification({
-                    postID: '',
-                    isShown: false
-                })
-            },5000)
+            toast.success("post shared successfully")
         };
     }
 
@@ -84,6 +73,7 @@ function SharePost({post}:{post: PostInterface}) {
                         placeholder='Say something about this'
                         value={postContent}
                         onChange={(e)=>setPostContent(e.target.value)}
+                        ref={inputRef}
                     />
                 </div>
                 <article className=''>
@@ -133,9 +123,10 @@ function SharePost({post}:{post: PostInterface}) {
                                 multiple
                             />
                         </div>
-                        <button className='text-black/60 hover:scale-105 transition-all'>
-                            <Smile/>
-                        </button>
+                        <Emoji  
+                            setContent={setPostContent}
+                            inputRef={inputRef}
+                        />
                         <button className='text-black/60 hover:scale-105 transition-all'>
                             <CalendarClock />
                         </button>
@@ -148,12 +139,6 @@ function SharePost({post}:{post: PostInterface}) {
                         Share Post
                     </Button>
                 </div>
-
-                {successNotification.isShown && <div className='fixed bottom-10 left-1/2 -translate-x-1/2 rounded py-2 px-4 bg-secondary'>
-                <span className='text-center text-white text-sm font-semibold'>
-                    Post Successful <Link className='hover:underline' href={`/post/${successNotification.postID}`}>See post</Link>
-                </span>
-            </div>}
             </div>
         </ModalWrapper>
     )

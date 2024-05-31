@@ -18,13 +18,13 @@ export function cn(...inputs: ClassValue[]) {
 
 export const cld = new Cloudinary({cloud: {cloudName: process.env.NEXT_PUBLIC_CLOUDINARY_NAME}});
 
-export async function uploadImage(file: File){
+export async function uploadImage(file: File, resource_type: "image" | "video"){
   try {
       const formData = new FormData();
       formData.append("file", file);
       formData.append("upload_preset", "fledge");
       const response = await axios.post(
-          `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
+          `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/${resource_type}/upload`,
           formData
       )
       return response.data
@@ -46,7 +46,7 @@ export const handleImageUpload = async(
 
   for (let index = 0; index < files?.length; index++) {
       const file = files[index];
-      const data = await uploadImage(file)
+      const data = await uploadImage(file, mediaType)
       // const url = URL.createObjectURL(file)
       if(!data?.secure_url) return;
       setBlobs(prevState => [...prevState, {
@@ -69,7 +69,7 @@ export const uploadSingleMedia = async(
     data: null
 })
   const file = files[0];
-  const data = await uploadImage(file)
+  const data = await uploadImage(file, mediaType)
   // const url = URL.createObjectURL(file)
   if(!data?.secure_url) return;
   setMedia({

@@ -1,19 +1,15 @@
 'use client'
 
-import EmojiPicker from 'emoji-picker-react';
 import { endpointUpdateRequests, newPost } from '@/app/action'
 import { Button } from '@/components/ui/button'
 import { useAppSelector } from '@/lib/hook'
 import { handleImageUpload } from '@/lib/utils'
-import { CalendarClock, ImageIcon, Smile, Video, X } from 'lucide-react'
+import { CalendarClock, ImageIcon, Video, X } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React, { createRef, useState } from 'react'
 import { toast } from 'react-toastify'
-import InputEmoji from "react-input-emoji";
-import data from '@emoji-mart/data'
-import Picker from '@emoji-mart/react'
 import Emoji from '@/components/emoji/emoji';
 
 
@@ -106,28 +102,28 @@ function Post({
             <div className='flex justify-between items-center'>
                 <div className='flex gap-4 items-center'>
                     <div>
-                        <label htmlFor='upload-image' className='text-black/60 hover:scale-105 transition-all'>
+                        <label htmlFor={type + "-upload-image"} className='text-black/60 hover:scale-105 transition-all'>
                             <ImageIcon/>
                         </label>
                         <input 
                             onChange={(e)=>handleImageUpload(e, "image", setBlobs)} 
                             type="file" 
-                            name="upload-image" 
-                            id="upload-image"
+                            name={type + "-upload-image"} 
+                            id={type + "-upload-image"}
                             hidden 
                             accept='image/*' 
                             multiple
                         />
                     </div>
                     <div>
-                        <label htmlFor='upload-video' className='text-black/60 hover:scale-105 transition-all'>
+                        <label htmlFor={type + "-upload-video"} className='text-black/60 hover:scale-105 transition-all'>
                             <Video/>
                         </label>
                         <input 
                             onChange={(e)=>handleImageUpload(e, "video", setBlobs)} 
                             type="file" 
-                            name="upload-video" 
-                            id="upload-video"
+                            name={type + "-upload-video"} 
+                            id={type + "-upload-video"}
                             hidden 
                             accept='video/*' 
                             multiple
