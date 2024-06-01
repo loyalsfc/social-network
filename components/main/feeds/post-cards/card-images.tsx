@@ -1,12 +1,15 @@
 import { PostInterface } from '@/@types';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
+import Link from 'next/link';
 import React from 'react'
 
 function CardImages({
-    media
+    media,
+    postId
 }:{
     media: PostInterface["media"];
+    postId: string;
 }) {
     return (
         <div className={cn('h-full overflow-hidden grid gap-1', media.length === 1 ? "grid-cols-1 aspect-[3/4]" : media.length === 2 ? "grid-cols-2 h-80" : "grid-cols-3 h-80")}>
@@ -28,7 +31,7 @@ function CardImages({
                         }
                         {/* Check the media type to determine whether to display as image or video */}
                         {item.mediaType === "image" ? 
-                            <div 
+                            <Link href={`/post/${postId}/${item.mediaType}/${index}`}
                                 className={cn('relative h-full w-full')}
                             >
                                 <Image
@@ -37,7 +40,7 @@ function CardImages({
                                     alt='Post media'
                                     className='object-cover object-center'
                                 />
-                            </div> : <div className='bg-black'>
+                            </Link> : <div className='bg-black'>
                                 <video src={item.url} controls className='h-full w-full'>
 
                                 </video>

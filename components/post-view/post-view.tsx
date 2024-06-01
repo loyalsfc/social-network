@@ -13,9 +13,7 @@ function PostView({
     post
 }:Props) {
     const {
-    profile_picture,
-    name,
-    username,
+    id,
     created_at,
     content,
     media,
@@ -35,14 +33,14 @@ function PostView({
                 {content}
             </p>
 
-            {media && media?.length > 0 && <CardImages media={media}/>}
+            {media && media?.length > 0 && <CardImages postId={id} media={media}/>}
 
             <p className='font-medium text-sm py-4 flex gap-2 text-[#263B42]'>
                 <span>{new Date(created_at).toLocaleDateString("en-US", {month: "long", year: "numeric", day: "numeric"})}, </span>
                 <span>{new Date(created_at).toLocaleTimeString("en-US", {hour: "2-digit", minute: "2-digit"})}</span>
             </p>
 
-            <ReactionsWrapper fixedCommentBox={true} post={post} className='border-y border-y-grey-500 py-1'/>
+            <ReactionsWrapper fixedCommentBox={true} post={post} className='border-y border-y-grey-500 py-1 gap-6'/>
         </div>
     )
 }

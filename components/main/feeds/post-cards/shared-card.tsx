@@ -40,9 +40,9 @@ async function SharedCard({
                 >
                     {sharedPost.content}
                 </Link>
-                {sharedPost.media && sharedPost.media?.length > 0 && <CardImages media={sharedPost.media}/>}
+                {sharedPost.media && sharedPost.media?.length > 0 && <CardImages postId={sharedPost.id} media={sharedPost.media}/>}
             </div>
-            {post.media && post.media?.length > 0 && <CardImages media={post.media}/>}
+            {post.media && post.media?.length > 0 && <CardImages media={post.media} postId={post.id}/>}
             <ReactionsWrapper fixedCommentBox={false} post={post}/>
         </div>
     )

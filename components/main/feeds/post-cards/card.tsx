@@ -26,7 +26,7 @@ function Card({
             >
                 {post.content}
             </Link>
-            {post.media && post.media?.length > 0 && <CardImages media={post.media}/>}
+            {post.media && post.media?.length > 0 && <CardImages postId={post.id} media={post.media}/>}
             <ReactionsWrapper fixedCommentBox={false} post={post}/>
         </div>
     )

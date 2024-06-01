@@ -21,9 +21,9 @@ function Emoji({
     return (
         <Popover>
             <PopoverTrigger>
-                <button type='button' className='text-black/60 hover:scale-105 transition-all pt-1.5'>
+                <span className='text-black/60 hover:scale-105 transition-all pt-1.5'>
                     <Smile size={iconSize}/>        
-                </button>
+                </span>
                 </PopoverTrigger>
             <PopoverContent>
             <EmojiPicker

@@ -1,15 +1,17 @@
 import { CommentInterface } from '@/@types'
 import React from 'react'
 import Card from './comment/card/card'
-import { timeAgo } from '@/lib/utils'
+import { cn, timeAgo } from '@/lib/utils'
 
 function Comments({
-    comments
+    comments,
+    className
 }:{
-    comments: CommentInterface[]
+    comments: CommentInterface[];
+    className: string;
 }) {
     return (
-        <div className='bg-white px-4'>
+        <div className={cn('bg-white', className)}>
             {comments.map(item => {
                 return(
                     <Card

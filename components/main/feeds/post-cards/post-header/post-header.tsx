@@ -17,7 +17,6 @@ function PostHeader({
     avatarSize,
     showMenu
 }:Props) {
-    console.log(post)
     return (
         <div className='flex items-center gap-1.5 text-[#263B42]'>
             <ProfilePictureAvatar link={post.profile_picture} size={avatarSize} />
@@ -33,7 +32,7 @@ function PostHeader({
             />
             -
             {post.created_at && <span>{timeAgo.format(new Date(post.created_at), "twitter")}</span>}
-            {showMenu && <div className="ml-auto h-7 w-7 rounded-full grid place-content-center hover:bg-gray-600/20">
+            {showMenu && <div className="drop-menu">
                 <DropMenu post={post} />
             </div>}
         </div>

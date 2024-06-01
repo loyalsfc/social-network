@@ -40,6 +40,9 @@
     .cancel-btn{
         @apply z-10 absolute top-2 right-2 h-6 w-6 grid place-content-center bg-black/20 hover:bg-black/30 rounded-full
     }
+    .drop-menu{
+        @apply ml-auto h-7 w-7 rounded-full grid place-content-center hover:bg-gray-600/20
+    }
 }
 
 .snippet-ellipsis{
@@ -48,4 +51,18 @@
     -webkit-line-clamp: 2; /* Number of lines to show */
     -webkit-box-orient: vertical;
     text-overflow: ellipsis;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+  
+/* Hide scrollbar for IE, Edge and Firefox */
+.hide-scrollbar::-webkit-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+.hide-scrollbar {
+    scrollbar-width: none;
 }

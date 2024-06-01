@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react'
 import CommentBox from './comment'
-import { Forward, MessageSquareIcon } from 'lucide-react'
+import { MessageSquareIcon } from 'lucide-react'
 import Bookmarks from './bookmarks'
 import { cn } from '@/lib/utils'
 import Likes from './likes'
@@ -33,7 +33,7 @@ function ReactionsWrapper({
     const [commentCount, setCommentCount] = useState<number>(comments);
     return (
         <>
-            <div className={cn('text-[#1c2022] flex items-center gap-6 pt-4', className)}>
+            <div className={cn('text-[#1c2022] flex items-center pt-4', className)}>
                 <Likes likes={likes} postID={id} likedUsers={likedUsers} />
                 <button className='reaction-btn' onClick={()=>setShowCommentBox(true)}>
                     <MessageSquareIcon className='hover:scale-110 transition-all' />
