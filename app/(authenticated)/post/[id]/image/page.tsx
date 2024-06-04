@@ -2,7 +2,6 @@ import { getComments, getPost } from '@/app/action'
 import { ProfileHoverCard } from '@/components/hover-card/profile-hovercard'
 import ImageCarousel from '@/components/image-slider/image-slider'
 import DropMenu from '@/components/main/feeds/post-cards/post-header/drop-menu'
-import PostHeader from '@/components/main/feeds/post-cards/post-header/post-header'
 import ReactionsWrapper from '@/components/main/feeds/reactions/reactions-wrapper'
 import Comments from '@/components/post-view/comments'
 import ProfilePictureAvatar from '@/components/profile-picture-avatar/profile-picture-avatar'
@@ -24,7 +23,6 @@ async function Page({params}:{
             <div className='flex-1'>
                 <ImageCarousel
                     media={post.media}
-                    postId={post.id}
                 />
             </div>
             <div className='bg-white h-full max-w-sm w-full p-4'>
