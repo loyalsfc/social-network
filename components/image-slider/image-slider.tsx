@@ -1,29 +1,43 @@
 'use client'
 
-import React, {useState} from "react"
+import React, {useEffect, useState} from "react"
 
 import { Media } from "@/@types"
 import Image from "next/image"
-import { useParams, useRouter } from "next/navigation"
+import { useParams, usePathname, useRouter, useSearchParams } from "next/navigation"
 import { ArrowLeft, ArrowRight } from "lucide-react"
+import { KeyPairKeyObjectResult } from "crypto"
+import NotFound from "../not-found/not-found"
 
 export default function ImageCarousel({
     media,
 }:{
     media: Media[],
 }) {
+    const pathName = usePathname()
+    const searchParams = useSearchParams()
     const params = useParams<{ id: string; type: string; index: string; }>()
-    const [currentImage, setCurrentImage] = useState(parseInt(params.index))
+    const [currentImage, setCurrentImage] = useState(parseInt(searchParams.get("index") ?? "1"))
+    
     const router = useRouter();
+
+    useEffect(()=>{
+        document.addEventListener("keydown", goBack)
+
+        return ()=> document.removeEventListener("keydown", goBack)
+    },[])
+
+    function goBack(e: KeyboardEvent){
+        if(e.key === "Escape") router.push(`/post/${params.id}/`)
+    }
 
     function nextImage(){
         // setCurrentImage(prevState => {
             if (currentImage === media.length) {
                 return
             }else {
-                router.push(`/post/0ad42a6f-3f9f-46c2-ac33-4741ee14d74c/image/${currentImage + 1}`)
+                setCurrentImage(prevState => prevState + 1)
             }
-        // })
     }
 
     function prevImage(){
@@ -31,9 +45,14 @@ export default function ImageCarousel({
             if (currentImage === 0) {
                 return
             }else {
-                router.push(`/post/0ad42a6f-3f9f-46c2-ac33-4741ee14d74c/image/${currentImage - 1}`)
+                setCurrentImage(prevState => prevState - 1)
             }
-        // })
+    }
+
+    if(!searchParams.get("index") || parseInt(searchParams.get("index") ?? "") > media.length){
+        return <div className="h-full w-full px-16 py-16 bg-white">
+                <NotFound />
+            </div>
     }
 
     return (

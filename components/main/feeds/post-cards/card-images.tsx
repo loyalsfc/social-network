@@ -31,7 +31,7 @@ function CardImages({
                         }
                         {/* Check the media type to determine whether to display as image or video */}
                         {item.mediaType === "image" ? 
-                            <Link href={`/post/${postId}/${item.mediaType}/${index}`}
+                            <Link href={`/post/${postId}/image?index=${index + 1}`}
                                 className={cn('relative h-full w-full')}
                             >
                                 <Image
