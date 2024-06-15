@@ -2,6 +2,7 @@
 
 import { PostInterface } from '@/@types';
 import EditPost from '@/components/post-view/modals/edit-post';
+import EmbedPost from '@/components/post-view/modals/embed-post';
 import PostCommentDelete from '@/components/post-view/modals/post-comment-delete';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { useAppSelector } from '@/lib/hook';
@@ -15,6 +16,8 @@ function DropMenu({
 }) {
     const [showCommentDelete, setShowCommentDelete] = useState(false)
     const [showEditPost, setShowEditPost] = useState(false);
+    const [showEmbedPost, setShowEmbedPost] = useState(false);
+
 
     const {user} =useAppSelector(state => state.user);
     return (
@@ -41,7 +44,10 @@ function DropMenu({
                     >
                         <Edit2Icon /> Edit post
                     </DropdownMenuItem>
-                    <DropdownMenuItem className='flex gap-2 items-center font-medium'>
+                    <DropdownMenuItem 
+                        className='flex gap-2 items-center font-medium'
+                        onClick={()=>setShowEmbedPost(true)}
+                    >
                         <Code2Icon /> Embed Post
                     </DropdownMenuItem>
                 </DropdownMenuContent>:<DropdownMenuContent>
@@ -59,7 +65,10 @@ function DropMenu({
                         <Clock7 /> Snooze @{post.username} for 30 days
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem className='flex gap-2 items-center font-medium'>
+                    <DropdownMenuItem 
+                        className='flex gap-2 items-center font-medium'
+                        onClick={()=>setShowEmbedPost(true)}
+                    >
                         <Code2Icon /> Embed Post
                     </DropdownMenuItem>
                 </DropdownMenuContent>}
@@ -72,6 +81,10 @@ function DropMenu({
             {showEditPost && <EditPost 
                 post={post}
                 closeEdit={()=>setShowEditPost(false)}
+            />}
+            {showEmbedPost && <EmbedPost
+                path={`/embeded/post/${post.id}`}
+                closeEdit={()=>setShowEmbedPost(false)}
             />}
         </>
 

@@ -13,7 +13,7 @@ async function PostLayout({params, children}:{params: {id: string}, children: Re
         <main className="flex-1 h-full flex overflow-x-hidden">
             {children}
             <div className="px-4 lg:px-10 h-full overflow-y-scroll flex-1">
-                <PostView post={post} />
+                <PostView post={post} showMenu={true}/>
                 <Comments comments={comments} className='px-4' />
             </div>
             <Suggestionbar />

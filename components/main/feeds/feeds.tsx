@@ -15,7 +15,9 @@ function Feeds({
         <>
             {posts.length ? <div className='space-y-4'>
                 {posts.map(post => {
-                    return(<>{post.is_shared ? <SharedCard 
+                    return(
+                        <>
+                            {post.is_shared ? <SharedCard 
                                 key={post.id}
                                 post={post}
                             /> : <Card

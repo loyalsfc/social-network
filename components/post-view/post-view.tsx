@@ -7,10 +7,12 @@ import PostHeader from '../main/feeds/post-cards/post-header/post-header'
 
 interface Props {
     post: PostInterface
+    showMenu: boolean
 }
 
 function PostView({
-    post
+    post,
+    showMenu
 }:Props) {
     const {
     id,
@@ -25,7 +27,7 @@ function PostView({
             <PostHeader
                post={post}
                 avatarSize={50}
-                showMenu={true}
+                showMenu={showMenu}
             />
             <p 
                 className={cn(media?.length ? 'font-thin text-black mb-5 pl-[58px]' : "pt-4")}

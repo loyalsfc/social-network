@@ -29,6 +29,7 @@ function Likes({
         const path = isLiked ? "unlike" : 'like'
         setIsLiked(prevState => !prevState)
         const response = await likeReaction(postID, path);
+        console.log(response);
         e.target.disabled = false;    
         if(response.status === "success"){
             setTotalLikes(response.payload)
