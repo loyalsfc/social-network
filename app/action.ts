@@ -110,19 +110,6 @@ export async function signOut(){
     redirect("/sign-in")
 }
 
-export async function fetchUser(username: string){
-    setAuthorization();
-    try {
-        const response = await instance.get(`/v1/user/${username}`)
-        return response.data
-    } catch (error: any) {
-        console.log(error.response)
-        return {
-            status: error?.response?.data?.error
-        }
-    }
-}
-
 export async function changeProfilePicture(image_url: string, path: string, key: string){
     setAuthorization()
     try {
@@ -212,31 +199,6 @@ export const getFollowInfo = async(userId: string) => {
     }
 }
 
-export const getFollowers = async(userId: string) => {
-    setAuthorization();
-    try {
-        const response = await instance.get(`/v1/get-followers/${userId}`)
-        return response.data
-    } catch (error: any) {
-        console.log(error.response)
-        return {
-            error: error?.response?.data
-        }
-    }
-}
-
-export const getFollowings = async(userId: string) => {
-    try {
-        const response = await instance.get(`/v1/get-following/${userId}`)
-        return response.data
-    } catch (error: any) {
-        console.log(error.response)
-        return {
-            error: error?.response?.data
-        }
-    }
-}
-
 export async function newPost(body: {}){
     setAuthorization();
     try {
@@ -250,18 +212,6 @@ export async function newPost(body: {}){
     }
 }
 
-export async function getUserPosts(username: string){
-    setAuthorization();
-    try {
-        const response = await instance.get(`/v1/user-posts/${username}`)
-        return response.data
-    } catch (error: any) {
-        return{
-            error: error?.response?.data
-        }        
-    }
-}
-
 export async function likeReaction(postID: string, path: string){
     setAuthorization();
     try {
@@ -272,18 +222,6 @@ export async function likeReaction(postID: string, path: string){
         return response.data
     } catch (error: any) {
         console.log(error)
-        return{
-            error: error?.response?.data
-        } 
-    }
-}
-
-export async function getFeeds(userID: string){
-    setAuthorization();
-    try {
-        const response = await instance.get(`/v1/feeds?id=${userID}`)
-        return response.data
-    } catch (error: any) {
         return{
             error: error?.response?.data
         } 
@@ -318,18 +256,6 @@ export async function  getPost(postID: string){
     setAuthorization()
     try {
         const response = await instance.get(`/v1/post/${postID}`)
-        return response.data
-    } catch (error: any) {
-        return{
-            error: error?.response?.data
-        }
-    }
-}
-
-export async function  getComments(postID: string){
-    setAuthorization()
-    try {
-        const response = await instance.get(`/v1/post-comments/${postID}`)
         return response.data
     } catch (error: any) {
         return{

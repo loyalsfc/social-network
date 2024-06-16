@@ -1,4 +1,4 @@
-import { getComments, getPost } from '@/app/action'
+import { endpointGetRequests, getPost } from '@/app/action'
 import { ProfileHoverCard } from '@/components/hover-card/profile-hovercard'
 import ImageCarousel from '@/components/image-slider/image-slider'
 import DropMenu from '@/components/main/feeds/post-cards/post-header/drop-menu'
@@ -15,7 +15,7 @@ async function Page({params}:{
     }
 }) {
     const postFunc = getPost(params.id)
-    const commentsFunc = getComments(params.id)
+    const commentsFunc = endpointGetRequests(`/post-comments/${params.id}`)
     const [post, comments] = await Promise.all([postFunc, commentsFunc])
 
     return (

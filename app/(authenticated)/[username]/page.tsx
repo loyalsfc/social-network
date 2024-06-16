@@ -2,7 +2,7 @@ import React from 'react'
 import Image from 'next/image'
 import { Share2 } from 'lucide-react'
 import Feeds from '@/components/main/feeds/feeds'
-import { fetchUser, getFollowInfo, getUserPosts } from '@/app/action'
+import { endpointGetRequests, getFollowInfo } from '@/app/action'
 import Edit from '@/components/profile/edit-profile/edit'
 import ProfilePicture from '@/components/profile/profile-picture/profile-picture'
 import NotFound from '@/components/not-found/not-found'
@@ -14,14 +14,14 @@ import Link from 'next/link'
 import Media from '@/components/profile/media/media'
 
 async function name(username: string) {
-    return fetchUser(username)
+    return endpointGetRequests(`/user/${username}`)
 }
 
 async function Page({params}:{params: {username: string}}) {
     const user: UserInterface = await name(params.username)
     const defaultUser = JSON.parse(cookies().get('user-details')?.value ?? "");
     const followInfo = await getFollowInfo(user.id);
-    const userPosts = await getUserPosts(params.username)
+    const userPosts = await endpointGetRequests(`/user-posts/${params.username}`)
     
     //Check if the profile page is the user's page
     const isUserPage = defaultUser.username === params.username;
