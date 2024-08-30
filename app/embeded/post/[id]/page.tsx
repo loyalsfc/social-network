@@ -1,16 +1,13 @@
-import { getPost } from '@/app/action'
-import PostView from '@/components/post-view/post-view'
-import React, { ReactNode } from 'react'
+import { PostInterface } from '@/@types';
+import { getPost } from '@/app/action';
+import Embeded from '@/components/embeded/embeded';
+import React from 'react';
 
 async function PostLayout({params}:{params: {id: string}}) {
-    const post = await getPost(params.id)
+    const post = await getPost(params.id) as PostInterface;
 
     return (
-        <main className="flex-1 h-full flex overflow-x-hidden">
-            <div className="h-full overflow-y-scroll">
-                <PostView post={post} showMenu={false} />
-            </div>
-        </main>
+        <Embeded post={post} />
     )
 }
 

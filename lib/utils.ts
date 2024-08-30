@@ -12,6 +12,8 @@ TimeAgo.addDefaultLocale(en)
 
 export const timeAgo = new TimeAgo("en-US")
 
+export const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }

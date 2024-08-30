@@ -83,7 +83,7 @@ function DropMenu({
                 closeEdit={()=>setShowEditPost(false)}
             />}
             {showEmbedPost && <EmbedPost
-                path={`/embeded/post/${post.id}`}
+                postId={post.id}
                 closeEdit={()=>setShowEmbedPost(false)}
             />}
         </>
