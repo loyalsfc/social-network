@@ -11,6 +11,7 @@ import dummyProfile from "../../public/dummy.jpg"
 import { UserInterface } from '@/@types'
 import { signOut } from '@/app/action'
 import { initFollowList } from '@/lib/features/follow'
+import { initBlocks } from '@/lib/features/block'
 
 interface FollowInfo {
     followers?: UserInterface[];
@@ -19,10 +20,12 @@ interface FollowInfo {
 
 function Sidebar({
     user,
-    followInfo
+    followInfo,
+    blockList
 }:{
     user: UserInterface,
-    followInfo: FollowInfo
+    followInfo: FollowInfo,
+    blockList: string[]
 }) {
     const [isMenuCollapsed, setIsMenuCollapsed] = useState(false);
     const dispatch = useDispatch()
@@ -36,6 +39,7 @@ function Sidebar({
             following: followingsId,
             followers: followersId
         }))
+        dispatch(initBlocks(blockList ?? []))
     },[])
 
     const collapseMenu = () => {

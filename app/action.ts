@@ -218,7 +218,6 @@ export async function likeReaction(postID: string, path: string){
         const response = await instance.post(`/v1/${path}-post`,{
             post_id: postID
         })
-        console.log(response)
         return response.data
     } catch (error: any) {
         console.log(error)

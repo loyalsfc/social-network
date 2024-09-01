@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit'
 import userReducer from './features/user'
 import followReducer from './features/follow'
+import blockReducer from './features/block'
 
 export const store = configureStore({
   reducer: {
     user: userReducer,
-    followList: followReducer
+    followList: followReducer,
+    block: blockReducer
   },
 })
 

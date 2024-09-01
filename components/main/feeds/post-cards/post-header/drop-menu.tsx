@@ -1,13 +1,14 @@
 'use client'
 
 import { PostInterface } from '@/@types';
-import { followUser } from '@/app/action';
+import { endpointPostRequests, followUser } from '@/app/action';
 import EditPost from '@/components/post-view/modals/edit-post';
 import EmbedPost from '@/components/post-view/modals/embed-post';
 import PinPost from '@/components/post-view/modals/pin-post';
 import PostCommentDelete from '@/components/post-view/modals/post-comment-delete';
 import WhoCanCommentSettings from '@/components/post-view/modals/who-can-comment';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
+import { addBlocks } from '@/lib/features/block';
 import { addToFollowing, removeFromFollowing } from '@/lib/features/follow';
 import { useAppDispatch, useAppSelector } from '@/lib/hook';
 import { Clock7, Code2Icon, Edit2Icon, Ellipsis, Flag, MessageSquare, PinIcon, Trash2, UserPlus2, UserRoundX, UserX2 } from 'lucide-react'
@@ -132,6 +133,20 @@ function DropDownMenuOthersPost({
         }
     }
 
+    const blockUser = async() => {
+        const data = await endpointPostRequests("/block", {
+            blocker_id: user?.id,
+            blocked_id: post.user_id
+        })
+        if(!data?.error){
+            router.refresh();
+            toast.error("You block this user",{
+                position: "bottom-center"
+            });
+            dispatch(addBlocks(post.user_id));
+        }
+    }
+
     
     return(
         <DropdownMenuContent>
@@ -145,7 +160,10 @@ function DropDownMenuOthersPost({
                         </button>
                 }
             </DropdownMenuItem>
-            <DropdownMenuItem className='flex gap-2 items-center font-medium'>
+            <DropdownMenuItem 
+                className='flex gap-2 items-center font-medium'
+                onClick={blockUser}
+            >
                 <UserRoundX /> Block @{post.username}
             </DropdownMenuItem>
             <DropdownMenuSeparator />

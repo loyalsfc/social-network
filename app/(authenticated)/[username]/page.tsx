@@ -9,9 +9,10 @@ import NotFound from '@/components/not-found/not-found'
 import CoverPicture from '@/components/profile/cover-picture/cover-picture'
 import { cookies } from 'next/headers'
 import Follow from '@/components/profile/profile-picture/follow'
-import { UserInterface } from '@/@types'
+import { PostInterface, UserInterface } from '@/@types'
 import Link from 'next/link'
 import Media from '@/components/profile/media/media'
+import ProfileFeed from '@/components/profile/profile-feed/profile-feed'
 
 async function name(username: string) {
     return endpointGetRequests(`/user/${username}`)
@@ -21,7 +22,7 @@ async function Page({params}:{params: {username: string}}) {
     const user: UserInterface = await name(params.username)
     const defaultUser = JSON.parse(cookies().get('user-details')?.value ?? "");
     const followInfo = await getFollowInfo(user.id);
-    const userPosts = await endpointGetRequests(`/user-posts/${params.username}`)
+    const userPosts = await endpointGetRequests(`/user-posts/${params.username}`) as PostInterface[]
     
     //Check if the profile page is the user's page
     const isUserPage = defaultUser.username === params.username;
@@ -51,7 +52,9 @@ async function Page({params}:{params: {username: string}}) {
                                 className='object-cover object-top'
                             />
                         </div>}
+
                         {!isUserPage && <Follow userToFollowId={user.id} />}
+
                         {isUserPage && <Edit/>}
                         <button className='profile-btn'>
                             <Share2 />
@@ -88,17 +91,11 @@ async function Page({params}:{params: {username: string}}) {
                     </article>
                 </div>
 
-                <section className='py-4 grid grid-cols-10 gap-4'>
-                    <div className='col-span-6'>
-                        <Feeds posts={userPosts} />
-                    </div>
-                    <div className="col-span-4">
-                        <div className='bg-white p-4'>
-                            <h4 className='text-dark text-xl font-medium mb-6'>Media</h4>
-                            <Media post={userPosts} />
-                        </div>
-                    </div>
-                </section>
+                <ProfileFeed
+                    posts={userPosts}
+                    profileId={user.id}
+                    username={user.username}
+                />
             </div>}
         </main>
     )
