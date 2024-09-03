@@ -43,7 +43,7 @@ function ViewComment({
                     </div>
                     {comment.media.length > 0 && 
                     <div>
-                        <CardImages media={comment.media} />
+                        <CardImages media={comment.media} postId={comment.post_id} />
                     </div>}
                     <CommentReactions
                         id={comment.id}
