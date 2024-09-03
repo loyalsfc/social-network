@@ -17,7 +17,7 @@ function EditProfilePicture() {
     const handleOnChange = async(event: ChangeEvent<HTMLInputElement>) => {
         const newImage = event.target.files![0]
         
-        const data = await uploadImage(newImage);
+        const data = await uploadImage(newImage, "image");
         
         const url = data?.secure_url;
         const newProfile = await changeProfilePicture(url, "update-profile-image", "profile_image");
