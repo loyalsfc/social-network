@@ -13,7 +13,7 @@ function EditCoverPicture() {
 
         if(!file) return;
 
-        const data = await uploadImage(file);
+        const data = await uploadImage(file, "image");
         
         const url = data?.secure_url;
         
