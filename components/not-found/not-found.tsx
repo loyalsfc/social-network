@@ -19,8 +19,8 @@ function NotFound() {
             <p 
                 className='max-w-md text-center font-medium'
             >
-                This content isn't available right now
-                When this happens, it's usually because the owner only shared it with a small group of people, changed who can see it or it's been deleted.
+                This content isn&apos;t available right now
+                When this happens, it&apos;s usually because the owner only shared it with a small group of people, changed who can see it or it&apos;s been deleted.
             </p>
             <Link
                 href={"/"}

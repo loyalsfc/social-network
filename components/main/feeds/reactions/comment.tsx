@@ -67,7 +67,10 @@ function CommentBox({
     }
     
     return (
-        <div className={cn('flex flex-col', className)}>
+        <div className={cn('flex flex-col relative', className)}>
+            <div className='h-32 bg-white w-52 shrink-0 absolute hidden left-11 -top-28 z-10 shadow-lg rounded p-4'>
+                @muiz
+            </div>
             <div>
                 {optimisticComments?.map((item, index) => {
                     return(

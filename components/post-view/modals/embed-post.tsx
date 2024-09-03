@@ -38,7 +38,7 @@ function EmbedPost({
                     <p>Copy and paste this code into your website.</p>
                     <div className='flex gap-4'>
                         <p className='flex-1 text-ellipsis whitespace-nowrap overflow-hidden h-full px-3 p-2 bg-black/15 rounded'>
-                            {"<"}iframe src="https://www.fledge.com/embeded/post/{postId}" width="500" height="213" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"{"></iframe>"}
+                            {"<"}iframe src=&quot;https://www.fledge.com/embeded/post/{postId}&quot; width=&quot;500&quot; height=&quot;213&quot; style=&quot;border:none;overflow:hidden&quot; scrolling=&quot;no&quot; frameborder=&quot;0&quot; allowfullscreen=&quot;true&quot; allow=&quot;autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share&quot;{"></iframe>"}
                         </p>
                         <Button 
                             className='bg-primary font-semibold transition-all active:scale-90'
