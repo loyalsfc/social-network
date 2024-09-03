@@ -43,7 +43,7 @@ function ViewReply({
                         </div>
                         {comment.media.length > 0 && 
                             <div className=' max-w-52'>
-                                <CardImages media={comment.media} />
+                                <CardImages media={comment.media} postId={comment.post_id} />
                             </div>
                         }
                     </div>
