@@ -1,19 +1,21 @@
 'use client'
 
-import { CommentMedia } from '@/@types'
-import { insertComment } from '@/app/action'
+import { CommentMedia, SearchInterface } from '@/@types'
+import { endpointGetRequests, insertComment } from '@/app/action'
+import Avatar from '@/components/avatar/avatar'
 import Emoji from '@/components/emoji/emoji'
 import ProfilePictureAvatar from '@/components/profile-picture-avatar/profile-picture-avatar'
 import { useAppSelector } from '@/lib/hook'
 import { cn, restoreMediaToDefault, uploadSingleMedia } from '@/lib/utils'
-import { ImageIcon, SendHorizonal, Video, X } from 'lucide-react'
+import { ImageIcon, SendHorizonal, Verified, Video, X } from 'lucide-react'
 import Image from 'next/image'
-import React, { Dispatch, SetStateAction, createRef, useEffect, useOptimistic, useState } from 'react'
+import React, { Dispatch, SetStateAction, createRef, useEffect, useOptimistic, useRef, useState } from 'react'
 import { toast } from 'react-toastify'
 
 type Comment = {
     comment: string
 }
+const regex = /@[^\s@]+/g;
 
 function CommentBox({
     isShown, 
@@ -28,6 +30,7 @@ function CommentBox({
     className?: string
     fixedCommentBox: boolean
 }) {
+    const commentRef = useRef<HTMLDivElement>(null)
     const [commentText, setCommentText] = useState<string>("")
     const [media, setMedia] = useState<CommentMedia>({
         status: "pending",
@@ -35,11 +38,24 @@ function CommentBox({
     })
     const [isFocused, setIsFocused] = useState(false)
     const {user} = useAppSelector(state => state.user);
-    const inputRef = createRef<HTMLInputElement>();
+    const inputRef = useRef<HTMLInputElement>(null);
     const [optimisticComments, addOptimisticComment] = useOptimistic<
         Comment[],
         string
     >([], (state, newComment) => [...state, { comment: newComment}])
+    const [suggestions, setSuggestions] = useState<SearchInterface[]>([])
+
+    useEffect(()=>{
+        const hidePopUp = (event: any) => {
+            if(!commentRef.current?.contains(event.target)){
+                setSuggestions([])
+            }
+        }
+
+        document.addEventListener("click", hidePopUp);
+
+        return()=> document.removeEventListener("click", hidePopUp)
+    },[])
 
     useEffect(()=>{
         if(isShown && !fixedCommentBox){
@@ -47,30 +63,119 @@ function CommentBox({
         }
     },[isShown])
 
-    const addComment = async (formData: FormData) => {
-            const comment = formData.get("comment")
+    const addComment = async () => {
+            const comment = inputRef.current?.innerHTML
             if(!comment) return;
             inputRef.current!.value = "";
-            addOptimisticComment(comment.toString())
+            addOptimisticComment(comment)
             const data = await insertComment({
                 content: comment,
                 media: media.status === "active" ? [media.data] : [],
                 post_id: postID
             })
-            if(data?.payload){
+            if(data?.error === ""){
                 setCommentCount(data?.payload);
                 toast.success("comment successful");
                 restoreMediaToDefault(setMedia);
                 setCommentText("");
                 setIsFocused(false);
+
+                if (inputRef.current) {
+                    inputRef.current.innerHTML = "";
+                }
             }
+    }
+
+    function sendWithEnterKey(event: React.KeyboardEvent<HTMLDivElement>){
+        if (event.shiftKey && event.key === "Enter") {
+            return;
+        }
+        if(event.key === "Enter"){
+            event.preventDefault();
+            addComment()
+        }
+    }
+
+    function getCurrentWord(event: React.KeyboardEvent<HTMLDivElement>){
+        const selection = window.getSelection();
+        if (selection?.rangeCount === 0) return;
+
+        const range = selection?.getRangeAt(0);
+        const container = range?.startContainer;
+        const text = container?.textContent ?? "";
+
+        // Find the caret position
+        const caretOffset = range?.startOffset;
+
+        // Extract the word around the caret
+        const beforeCaret = text.slice(0, caretOffset);
+
+        // Find the last word in beforeCaret
+        const words = beforeCaret.split(/\s+/);
+        const lastWord = words[words.length - 1];
+
+        const isUsername = () => {
+            return lastWord.length > 1 && lastWord.startsWith("@");
+        }
+
+        if(!isUsername()){
+            setSuggestions([]);
+            return;
+        }
+
+        displaySuggestion(lastWord)
+
+        const replacement = `<span class='text-primary'>${lastWord}</span>`;
+        
+        // Update the content
+        const newText = text.replace(new RegExp(`\\b${lastWord}\\b`), replacement);
+        
+        if(!container) return;
+        container.textContent = newText;
+
+        // Adjust the caret position
+        if(caretOffset){   
+            range.setStart(container, caretOffset);
+            range.setEnd(container, caretOffset);
+        }
+
+        setCommentText(container.parentElement?.innerHTML ?? "");
+    }
+    
+    function handleInput(event: React.KeyboardEvent<HTMLDivElement>){
+        setCommentText(event.currentTarget.innerHTML)
+    }
+
+    async function displaySuggestion(word: string){
+        const data = await endpointGetRequests(`/users/search?query=${word.replace("@", "")}`);
+        setSuggestions(data);
+    }
+
+    function replaceWord(username: string){
+        
     }
     
     return (
-        <div className={cn('flex flex-col relative', className)}>
-            <div className='h-32 bg-white w-52 shrink-0 absolute hidden left-11 -top-28 z-10 shadow-lg rounded p-4'>
-                @muiz
-            </div>
+        <div ref={commentRef} className={cn('flex flex-col relative', className)}>
+            {suggestions.length > 0 && <div className='h-32 bg-white w-80 shrink-0 absolute left-11 -top-28 z-10 shadow-lg rounded p-4'>
+                <ul>
+                    {suggestions.map((item)=>{
+                        return(
+                            <li 
+                                key={item.id}
+                                className='flex items-center gap-2 cursor-pointer'
+                                onClick={()=>replaceWord(item.username)}
+                            >
+                                <Avatar fullname={item.name} imageLink={item.profile_picture} size='24' />
+                                <div>
+                                    <h4 className='font-medium leading-tight'>{item.name} {item.is_verified && <Verified />}</h4>
+                                    <span className='text-sm text-grey-100'>@{item.username}</span>
+                                </div>
+                            </li>
+                        )
+                    })}
+                </ul>
+            </div>}
             <div>
                 {optimisticComments?.map((item, index) => {
                     return(
@@ -85,34 +190,33 @@ function CommentBox({
                 })}
             </div>
             {isShown && 
-                <form 
-                    action={addComment}
-                >
+                <form>
                     <div className='flex relative mt-4 gap-1'>
                         <ProfilePictureAvatar
                             size={42}
                             link={user?.profile_picture ?? "/dummy.jpeg"}
                         />
                         <div className="flex-1">
-                            <div className='relative'>
-                                <input 
+                            <div className='relative rounded-2xl'>
+                                <div 
                                     ref={inputRef}
-                                    type="text" 
-                                    name='comment'
                                     id='comment'
                                     className={cn(
-                                            'w-full border border-black text-sm p-2 rounded-2xl focus:border-secondary focus:outline-none', 
+                                            'w-full border border-black bg-transparent text-sm select-text whitespace-pre-wrap break-all max-h-28 overflow-y-scroll hide-scrollbar p-2 rounded-2xl focus:border-secondary focus:outline-none', 
                                             isFocused ? "pb-10 pr-2":"pr-7"
                                         )} 
-                                    autoComplete='off'
                                     onFocus={()=>setIsFocused(true)}
-                                    value={commentText}
-                                    onChange={(e)=>setCommentText(e.target.value)}
+                                    onKeyDown={sendWithEnterKey}
+                                    onInput={getCurrentWord}
+                                    onKeyUp={handleInput}
+                                    contentEditable={true}
+                                    spellCheck={true}
+                                    role='textbox'
                                 /> 
                                 <div 
                                     className={cn(
-                                        'next-element absolute flex items-center transition-all gap-1 text-black-100/70',
-                                        !isFocused ? "right-2 bottom-1/2 translate-y-1/2 w-fit" : "bottom-1 left-0 px-2 w-full"
+                                        'next-element absolute flex items-center transition-all bg-white gap-1 text-black-100/70',
+                                        !isFocused ? "right-2 bottom-1/2 translate-y-1/2 w-fit" : "bottom-1 left-1 px-2 w-[98%] rounded-full"
                                     )}
                                 >
                                     <Emoji
@@ -140,6 +244,7 @@ function CommentBox({
                                     <button
                                         disabled={commentText === ""} 
                                         className={cn('hover:scale-105 disabled:opacity-30 hover:text-primary transition-all', isFocused && 'ml-auto')}
+                                        onClick={addComment}
                                     >
                                         <SendHorizonal size={20} />
                                     </button>
@@ -164,17 +269,6 @@ function CommentBox({
                                 </div>}
                             </div>
                         </div>
-                        {/* <input 
-                            ref={inputRef}
-                            type="text" 
-                            name='comment'
-                            id='comment'
-                            className='w-full border border-black rounded-full p-2 pr-7 focus:border-secondary focus:outline-secondary' 
-                            autoComplete='off'
-                        /> 
-                        <button className='absolute right-2 top-1/2 -translate-y-1/2 hover:scale-105 transition-all'>
-                            <SendHorizonal />
-                        </button> */}
                     </div>
                 </form>}
         </div>

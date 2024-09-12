@@ -72,3 +72,11 @@ export interface NotificationInterface{
     profile_picture: string,
     is_verified: boolean
 }
+
+export interface SearchInterface{
+    id: string;
+    is_verified: boolean;
+    name: string;
+    profile_picture: string;
+    username: string;
+}
